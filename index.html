@@ -3,266 +3,578 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Em Breve - Nova Revelação</title>
-    <!-- Inclui o Tailwind CSS via CDN para utilitários básicos -->
+    <title>CentralHG - Gestão Integrada</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inclui fontes para o estilo dark -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        /* Reset básico e estilos globais */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #0F0F1A; /* Azul escuro profundo */
-            color: #D0D0D0; /* Cinza claro suave */
-            font-family: 'Inter', sans-serif;
-            text-align: center;
-            background-image: radial-gradient(circle at center, #1A1A2A 0%, #0F0F1A 70%, #05050A 100%);
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            overflow-x: hidden; /* Evita rolagem horizontal */
-        }
-
-        .container {
-            max-width: 1200px;
-            width: 90%; /* Largura fluida para melhor responsividade */
-            margin: 20px auto; /* Centraliza com margem superior/inferior */
-            padding: 4rem 2rem; /* Aumenta o padding para espaçamento */
-            background-color: rgba(20, 20, 30, 0.8);
-            border-radius: 0.75rem;
-            border: 1px solid rgba(70, 70, 90, 0.5);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            transition: all 0.5s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .container:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.08);
-            transform: translateY(-10px);
-        }
-
-        /* Títulos */
-        h1, h2 {
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            margin: 0; /* Zera margens padrão */
-        }
-        h1 {
-            color: #E0E0E0;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-        h2 {
-            color: #A0A0B0;
-            margin-top: 0.5rem; /* Pequena margem superior para separar de h1 */
-            margin-bottom: 2.5rem;
-            animation: pulse-dark 2s infinite alternate ease-in-out;
-            text-shadow: 0 0 10px rgba(160, 160, 176, 0.3);
-        }
-        @keyframes pulse-dark {
-            from { opacity: 0.7; transform: scale(1); }
-            to { opacity: 1; transform: scale(1.02); }
-        }
-
-        /* Wrapper do vídeo responsivo */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* Proporção 16:9 (altura/largura) */
-            height: 0;
-            overflow: hidden;
-            max-width: 900px; /* Limita a largura máxima do vídeo */
-            margin-bottom: 2.5rem; /* Margem abaixo do vídeo */
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 0.75rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.03);
-            border: 2px solid rgba(80, 80, 100, 0.5);
-            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-            filter: brightness(0.9) contrast(1.1);
-        }
-        .video-wrapper iframe:hover {
-            transform: scale(1.005);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.06);
-        }
-
-        /* Contador regressivo */
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas menores */
-            gap: 1rem;
-            width: 100%;
-            max-width: 700px; /* Limita a largura máxima do contador */
-        }
-        @media (min-width: 768px) {
-            .countdown-grid {
-                grid-template-columns: repeat(4, 1fr); /* 4 colunas em telas maiores */
-                gap: 1.5rem;
-            }
-        }
-        .countdown-item {
-            background-color: rgba(25, 25, 40, 0.9);
-            padding: 1.5rem; /* Padding ajustado */
-            border-radius: 0.5rem;
-            border: 1px solid rgba(60, 60, 80, 0.4);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5), inset 0 0 5px rgba(255, 255, 255, 0.02);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease-in-out;
-        }
-        .countdown-item:hover {
-            background-color: rgba(30, 30, 50, 0.9);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
-            transform: translateY(-3px);
-        }
-        .countdown-item span:first-child {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem; /* Tamanho dos números */
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3), 0 0 8px rgba(255, 255, 255, 0.1);
-        }
-        #days { color: #A0B0D0; }
-        #hours { color: #B0A0D0; }
-        #minutes { color: #D0B0A0; }
-        #seconds { color: #D0A0D0; }
-
-        .countdown-item span:last-child {
-            color: #909090;
-            font-size: 1rem; /* Tamanho das unidades */
-            margin-top: 0.4rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        #countdownMessage {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem; /* Tamanho da mensagem final */
-            margin-top: 2.5rem; /* Margem superior para separar do contador */
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #C0C0C0;
-            animation: pulse-message 2s infinite alternate ease-in-out;
-        }
-        @keyframes pulse-message {
-            from { opacity: 0.8; transform: scale(1); }
-            to { opacity: 1; transform: scale(1.01); }
-        }
-
-        /* Responsividade para fontes e paddings em telas menores */
-        @media (max-width: 640px) {
-            h1 { font-size: 3rem; }
-            h2 { font-size: 2.2rem; }
-            .container { padding: 2rem 1rem; }
-            .countdown-item span:first-child { font-size: 2.5rem; }
-            .countdown-item span:last-child { font-size: 0.9rem; }
-            #countdownMessage { font-size: 1.2rem; }
-        }
-    </style>
-</head>
-<body class="selection:bg-gray-700 selection:text-white">
-    <div class="container">
-        <!-- Título "EM BREVE" -->
-        <h1 class="font-bold" style="font-size: 6rem;">
-            EM BREVE
-        </h1>
-        <!-- "2026..." abaixo do "EM BREVE" e pulsando -->
-        <h2 class="font-bold" style="font-size: 4rem;">
-            2026...
-        </h2>
-
-        <!-- Seção do Vídeo do YouTube em Loop -->
-        <div class="video-wrapper">
-            <iframe
-                src="https://www.youtube.com/embed/qfRhzVFv8zE?autoplay=1&loop=1&playlist=qfRhzVFv8zE&controls=0&playsinline=1&modestbranding=1&rel=0"
-                frameborder="0"
-                allow="autoplay; encrypted-media; fullscreen"
-                allowfullscreen
-            ></iframe>
-        </div>
-
-        <!-- Contador Regressivo -->
-        <div id="countdown" class="countdown-grid">
-            <div class="countdown-item">
-                <span id="days">00</span>
-                <span>Dias</span>
-            </div>
-            <div class="countdown-item">
-                <span id="hours">00</span>
-                <span>Horas</span>
-            </div>
-            <div class="countdown-item">
-                <span id="minutes">00</span>
-                <span>Minutos</span>
-            </div>
-            <div class="countdown-item">
-                <span id="seconds">00</span>
-                <span>Segundos</span>
-            </div>
-        </div>
-
-        <p id="countdownMessage"></p>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <script>
-        // Define a data alvo para 10 de abril de 2026, 10:00:00 (considerando o fuso horário local)
-        const targetDate = new Date('2026-04-10T10:00:00').getTime();
+        tailwind.config = {
+            theme: {
+                extend: { colors: { brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .filter-dropdown { display: none; }
+        .filter-dropdown.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
 
-        const daysSpan = document.getElementById('days');
-        const hoursSpan = document.getElementById('hours');
-        const minutesSpan = document.getElementById('minutes');
-        const secondsSpan = document.getElementById('seconds');
-        const countdownMessage = document.getElementById('countdownMessage');
+    <aside id="sidebar" class="bg-slate-900 text-white w-64 flex-shrink-0 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 fixed md:relative z-50 h-full shadow-2xl">
+        <div class="h-16 flex items-center justify-between px-6 border-b border-slate-700">
+            <div class="flex items-center gap-2 font-bold text-xl tracking-tight">
+                <i class="ri-bar-chart-box-line text-brand-500"></i>
+                <span>Central<span class="text-brand-500">HG</span></span>
+            </div>
+            <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white"><i class="ri-close-line text-2xl"></i></button>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-4">Visão Global</p>
+            <a href="#" onclick="changeView('global')" id="btn-nav-global" class="nav-btn flex items-center gap-3 px-3 py-2.5 bg-brand-600 text-white rounded-lg transition-colors">
+                <i class="ri-dashboard-3-line text-lg"></i><span class="font-medium">Painel Central</span>
+            </a>
+            
+            <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Setores</p>
+            <a href="#" onclick="changeView('zootec')" id="btn-nav-zootec" class="nav-btn flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors">
+                <i class="ri-bug-line text-lg"></i><span class="font-medium">Zootécnicos</span>
+            </a>
+            <a href="#" onclick="changeView('racao')" id="btn-nav-racao" class="nav-btn flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors">
+                <i class="ri-seedling-line text-lg"></i><span class="font-medium">Fábrica de Ração</span>
+            </a>
+            <a href="#" onclick="changeView('frota')" id="btn-nav-frota" class="nav-btn flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors">
+                <i class="ri-truck-line text-lg"></i><span class="font-medium">Frota & Diesel</span>
+            </a>
+            <a href="#" onclick="changeView('lab')" id="btn-nav-lab" class="nav-btn flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors">
+                <i class="ri-test-tube-line text-lg"></i><span class="font-medium">Laboratório</span>
+            </a>
+        </nav>
+    </aside>
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+    <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+        <header class="glass-card border-b border-slate-200 z-40 px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="md:hidden text-slate-500"><i class="ri-menu-2-line text-2xl"></i></button>
+                <h1 id="page-title" class="text-xl font-bold text-slate-800 hidden lg:block">Painel Central</h1>
+            </div>
+            
+            <!-- BARRA DE FILTROS DINÂMICA -->
+            <div class="flex flex-wrap items-center gap-2">
+                <!-- Filtros Globais (Sempre visíveis) -->
+                <div class="relative filter-global">
+                    <button onclick="toggleDropdown('drop-ano')" class="flex items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                        <i class="ri-calendar-2-line text-brand-500"></i> Ano <i class="ri-arrow-down-s-line ml-1"></i>
+                    </button>
+                    <div id="drop-ano" class="filter-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-ano"></div></div>
+                </div>
+                <div class="relative filter-global">
+                    <button onclick="toggleDropdown('drop-mes')" class="flex items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                        <i class="ri-calendar-event-line text-brand-500"></i> Mês <i class="ri-arrow-down-s-line ml-1"></i>
+                    </button>
+                    <div id="drop-mes" class="filter-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-mes"></div></div>
+                </div>
 
-            // Cálculos de tempo
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                <!-- Filtros Frota (Só aparecem na aba Frota) -->
+                <div class="relative filter-frota hidden">
+                    <button onclick="toggleDropdown('drop-cat-diesel')" class="flex items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                        <i class="ri-gas-station-line text-brand-500"></i> Setor (Diesel) <i class="ri-arrow-down-s-line ml-1"></i>
+                    </button>
+                    <div id="drop-cat-diesel" class="filter-dropdown absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-cat-diesel"></div></div>
+                </div>
 
-            // Exibe os resultados nos elementos HTML, com preenchimento de zero
-            daysSpan.textContent = String(days).padStart(2, '0');
-            hoursSpan.textContent = String(hours).padStart(2, '0');
-            minutesSpan.textContent = String(minutes).padStart(2, '0');
-            secondsSpan.textContent = String(seconds).padStart(2, '0');
+                <!-- Filtros Zootecnicos (Só aparecem na aba Zootécnicos) -->
+                <div class="relative filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-galpao')" class="flex items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                        <i class="ri-home-4-line text-brand-500"></i> Galpão <i class="ri-arrow-down-s-line ml-1"></i>
+                    </button>
+                    <div id="drop-galpao" class="filter-dropdown absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-galpao"></div></div>
+                </div>
+                <div class="relative filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-genetica')" class="flex items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                        <i class="ri-dna-line text-brand-500"></i> Genética <i class="ri-arrow-down-s-line ml-1"></i>
+                    </button>
+                    <div id="drop-genetica" class="filter-dropdown absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-genetica"></div></div>
+                </div>
+                <div class="relative filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-fornecedor')" class="flex items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                        <i class="ri-truck-line text-brand-500"></i> Fornecedor <i class="ri-arrow-down-s-line ml-1"></i>
+                    </button>
+                    <div id="drop-fornecedor" class="filter-dropdown absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-fornecedor"></div></div>
+                </div>
 
-            // Quando o contador chega a zero
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                daysSpan.textContent = '00';
-                hoursSpan.textContent = '00';
-                minutesSpan.textContent = '00';
-                secondsSpan.textContent = '00';
-                countdownMessage.textContent = 'A SURPRESA COMEÇOU!';
-                // Você pode adicionar mais ações aqui, como redirecionar ou exibir conteúdo adicional
+                <button onclick="aplicarTodosFiltros()" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-1.5 px-4 rounded-md shadow transition-colors ml-2">
+                    Aplicar Filtros
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-100">
+            <div id="loader" class="flex flex-col items-center justify-center p-8 mt-10 bg-white rounded-2xl shadow border border-slate-200">
+                <i class="ri-loader-4-line animate-spin text-4xl text-brand-500 mb-4"></i>
+                <span class="text-lg font-bold text-slate-700">A Ler Base de Dados...</span>
+                <span class="text-sm text-slate-500 mt-1">A analisar planilhas da CentralHG (Google Sheets).</span>
+            </div>
+
+            <div id="dashboard-content" style="display: none;">
+                
+                <div id="view-global" class="view-section block">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-blue-500 hover:-translate-y-1 transition-transform">
+                            <p class="text-sm font-semibold text-slate-500">Consumo Total Diesel</p>
+                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-diesel-global">R$ 0,00</h3>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-orange-500 hover:-translate-y-1 transition-transform">
+                            <p class="text-sm font-semibold text-slate-500">Ração Produzida</p>
+                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-racao-global">0 Ton</h3>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-emerald-500 hover:-translate-y-1 transition-transform">
+                            <p class="text-sm font-semibold text-slate-500">Conv. Alimentar (Média Global)</p>
+                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-zootec-global">0.00</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-zootec" class="view-section hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 id="title-zoo-peso" class="text-md font-bold text-slate-700 mb-4">Evolução do Peso Final (kg)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooPeso"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 id="title-zoo-gmd" class="text-md font-bold text-slate-700 mb-4">Curva Sazonal de GMD</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooGmd"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 id="title-zoo-ca" class="text-md font-bold text-slate-700 mb-4">Sazonalidade: Conversão Alimentar (CA)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooCa"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 id="title-zoo-mort" class="text-md font-bold text-slate-700 mb-4">Evolução da Mortalidade (%)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooMort"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Comparativo Anual: Evolução GMD</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooGmdAno"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 id="title-zoo-custo" class="text-md font-bold text-slate-700 mb-4">Custo Alimentar por Kg Vivo (R$)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooCusto"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Top Fornecedores (GMD)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooFornGmd"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Top Fornecedores (IEP)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooFornIep"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Genética x Nutrição (GMD Médio)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooGenetica"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Idade da Matriz vs Mortalidade (%)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartZooIdade"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Ranking Desempenho: Encarregados (IEP)</h2>
+                            <div class="relative w-full overflow-x-auto" style="min-height: 256px;">
+                                <div style="min-width: 600px; height: 100%;"><canvas id="chartZooEncarregado"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-racao" class="view-section hidden">
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <h2 class="text-md font-bold text-slate-700 mb-4">Produção de Ração Mensal (Ton)</h2>
+                        <div class="relative w-full h-64"><canvas id="chartRacaoMensal"></canvas></div>
+                    </div>
+                </div>
+
+                <div id="view-frota" class="view-section hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Custo Diesel (R$)</h2><div class="relative w-full h-64"><canvas id="chartDiesel"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Diesel por Setor</h2><div class="relative w-full h-64"><canvas id="chartSetorDiesel"></canvas></div></div>
+                    </div>
+                </div>
+
+                <div id="view-lab" class="view-section hidden">
+                    <div class="glass-card p-5 rounded-2xl overflow-hidden mb-6">
+                        <h2 class="text-md font-bold text-slate-700 mb-4">Qualidade do Milho Recebido</h2>
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead class="bg-slate-50 text-slate-500"><tr><th class="px-4 py-3">Fornecedor</th><th class="px-4 py-3">Humidade %</th><th class="px-4 py-3">Impureza %</th></tr></thead>
+                            <tbody id="tabela-lab" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm"></div>
+
+    <script>
+        window.onerror = function(msg, source, lineno) {
+            const l = document.getElementById('loader');
+            if (l && document.getElementById('dashboard-content').style.display === 'none') {
+                l.innerHTML = `<i class='ri-bug-line text-4xl text-red-500 mb-2'></i><span class="font-bold text-slate-700">Erro</span><span class="text-sm text-slate-500">${msg} (Linha ${lineno})</span>`;
+            }
+        };
+
+        try { if (typeof ChartDataLabels !== 'undefined') { Chart.register(ChartDataLabels); } } catch (e) { }
+
+        // LINKS
+        const LINKS_GERAIS = {
+            zootecnicos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1289493781&single=true&output=csv",
+            diesel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1770890760&single=true&output=csv",
+            lab_milho: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=175803297&single=true&output=csv",
+            racao_multiplos: [
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1450362820&single=true&output=csv",
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=812917303&single=true&output=csv",
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1293892436&single=true&output=csv"
+            ]
+        };
+
+        let dadosBrutos = { diesel: [], racao: [], zootecnico: [], lab: [] };
+        // Adicionados os novos filtros Zootécnicos
+        let listasFiltros = { anos: new Set(), meses: new Set(), catDiesel: new Set(), galpao: new Set(), genetica: new Set(), fornecedor: new Set() };
+        let filtrosAtivos = { anos: [], meses: [], catDiesel: [], galpao: [], genetica: [], fornecedor: [] };
+
+        const MESES_ORDEM = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+        
+        // Cores Dinâmicas e Fixas
+        const CORES_NUTRI = { 'Global': '#64748b', 'Fatec': '#0ea5e9', 'Nutritore': '#f97316' };
+        const stringToColor = (str) => {
+            let hash = 0; for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            const c = (hash & 0x00FFFFFF).toString(16).toUpperCase(); return '#' + '00000'.substring(0, 6 - c.length) + c;
+        };
+        const getCorDinamica = (nome) => CORES_NUTRI[nome] || stringToColor(nome);
+
+        // UTILITÁRIOS
+        function getFuzzyValue(row, keywords) {
+            if (!row) return null;
+            const keys = Object.keys(row);
+            for (let kw of keywords) {
+                const found = keys.find(k => k.toLowerCase().includes(kw.toLowerCase()));
+                if (found !== undefined) return row[found];
+            }
+            return null;
+        }
+        function getDataValue(row) { return getFuzzyValue(row, ['data']) || Object.values(row)[0]; }
+        function parsePtBrNumber(str) { return parseFloat((str||'').toString().trim().replace(/\./g, '').replace(',', '.')) || 0; }
+        function extrairAnoMes(dataBR) {
+            if(!dataBR || typeof dataBR !== 'string') return { ano: '', mes: '' };
+            const p = dataBR.split('/');
+            if(p.length >= 3) return { ano: p[2].substring(0,4), mes: MESES_ORDEM[parseInt(p[1]) - 1], mesNum: parseInt(p[1]) };
+            return { ano: '', mes: '' };
+        }
+        function isMobile() { return window.innerWidth < 768; }
+        function calcMedia(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
+
+        // NAVEGAÇÃO SPA (Com Ocultação de Filtros Específicos)
+        function changeView(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => { el.classList.add('hidden'); el.classList.remove('block'); });
+            document.getElementById('view-' + viewId).classList.remove('hidden'); document.getElementById('view-' + viewId).classList.add('block');
+            document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('bg-brand-600', 'text-white'); el.classList.add('text-slate-300'); });
+            document.getElementById('btn-nav-' + viewId).classList.remove('text-slate-300'); document.getElementById('btn-nav-' + viewId).classList.add('bg-brand-600', 'text-white');
+            
+            // Oculta/Mostra os filtros dependendo da aba
+            document.querySelectorAll('.filter-frota, .filter-zootec').forEach(el => el.classList.add('hidden'));
+            if (viewId === 'frota') document.querySelectorAll('.filter-frota').forEach(el => el.classList.remove('hidden'));
+            if (viewId === 'zootec') document.querySelectorAll('.filter-zootec').forEach(el => el.classList.remove('hidden'));
+
+            const titulos = { 'global': 'Visão Global', 'zootec': 'Resultados Zootécnicos', 'racao': 'Fábrica de Ração', 'frota': 'Frota & Consumo de Diesel', 'lab': 'Laboratório & Qualidade' };
+            document.getElementById('page-title').innerText = titulos[viewId];
+            
+            for (let id in Chart.instances) { Chart.instances[id].resize(); }
+            if (isMobile()) toggleSidebar();
+        }
+
+        async function baixarCSV(url) {
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error("Erro HTTP");
+            const txt = await resp.text();
+            return new Promise((res, rej) => Papa.parse(txt, { header: true, skipEmptyLines: true, complete: r => res(r.data), error: e => rej(e) }));
+        }
+
+        async function carregarDados() {
+            let s = false;
+            try { const d = await baixarCSV(LINKS_GERAIS.diesel); if(d.length>0) { processarFiltros('diesel', d); s = true; } } catch (e) {}
+            try { const d = await baixarCSV(LINKS_GERAIS.zootecnicos); if(d.length>0) { processarFiltros('zootecnico', d); s = true; } } catch (e) {}
+            try { const d = await baixarCSV(LINKS_GERAIS.lab_milho); if(d.length>0) { processarFiltros('lab', d); s = true; } } catch (e) {}
+            
+            for (let url of LINKS_GERAIS.racao_multiplos) {
+                try { const temp = await baixarCSV(url); if (temp.length>0 && Object.keys(temp[0]).some(k=>k.toLowerCase().includes('ton'))) { processarFiltros('racao', temp); s = true; break; } } catch(e) {}
+            }
+
+            if (s) {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('dashboard-content').style.display = 'block';
+                construirMenus(); aplicarTodosFiltros();
             }
         }
 
-        // Atualiza o contador a cada segundo
-        const countdownInterval = setInterval(updateCountdown, 1000);
+        // ALIMENTAR OS NOVOS FILTROS
+        function processarFiltros(tipo, arr) {
+            dadosBrutos[tipo] = arr;
+            arr.forEach(row => {
+                const dt = getDataValue(row); if(!dt) return;
+                const {ano, mes} = extrairAnoMes(dt);
+                if(ano) listasFiltros.anos.add(ano); if(mes) listasFiltros.meses.add(mes);
 
-        // Chama a função uma vez imediatamente para evitar atraso inicial na exibição
-        updateCountdown();
+                if(tipo === 'diesel') {
+                    const cat = (getFuzzyValue(row, ['veículo', 'tipo ve', 'categoria']) || "").trim();
+                    if(cat.length > 1) listasFiltros.catDiesel.add(cat);
+                }
+
+                if(tipo === 'zootecnico') {
+                    const galpao = (getFuzzyValue(row, ['galpão', 'galpao']) || "").trim();
+                    if(galpao.length > 1) listasFiltros.galpao.add(galpao);
+                    
+                    const gen = (getFuzzyValue(row, ['linhagem', 'linha']) || "").trim();
+                    if(gen.length > 1) listasFiltros.genetica.add(gen);
+                    
+                    const fRaw = getFuzzyValue(row, ['forn']) || "";
+                    const fornecedores = String(fRaw).split(/[\/,\-&]/).map(x => x.trim()).filter(x => x && x.toLowerCase() !== "s/i");
+                    fornecedores.forEach(f => listasFiltros.fornecedor.add(f));
+                }
+            });
+        }
+
+        function toggleDropdown(id) { document.querySelectorAll('.filter-dropdown').forEach(el => { if(el.id !== id) el.classList.remove('active'); }); document.getElementById(id).classList.toggle('active'); }
+        
+        function construirMenus() {
+            const rc = (v, g) => `<label class="flex items-center gap-2 p-1.5 cursor-pointer"><input type="checkbox" value="${v}" class="chk-${g}" checked><span class="text-sm">${v}</span></label>`;
+            document.getElementById('lista-ano').innerHTML = Array.from(listasFiltros.anos).sort((a,b)=>b-a).map(v=>rc(v,'anos')).join('');
+            document.getElementById('lista-mes').innerHTML = Array.from(listasFiltros.meses).sort((a,b)=>MESES_ORDEM.indexOf(a)-MESES_ORDEM.indexOf(b)).map(v=>rc(v,'meses')).join('');
+            document.getElementById('lista-cat-diesel').innerHTML = Array.from(listasFiltros.catDiesel).sort().map(v=>rc(v,'catDiesel')).join('');
+            
+            document.getElementById('lista-galpao').innerHTML = Array.from(listasFiltros.galpao).sort().map(v=>rc(v,'galpao')).join('');
+            document.getElementById('lista-genetica').innerHTML = Array.from(listasFiltros.genetica).sort().map(v=>rc(v,'genetica')).join('');
+            document.getElementById('lista-fornecedor').innerHTML = Array.from(listasFiltros.fornecedor).sort().map(v=>rc(v,'fornecedor')).join('');
+        }
+
+        function aplicarTodosFiltros() {
+            document.querySelectorAll('.filter-dropdown').forEach(el => el.classList.remove('active'));
+            filtrosAtivos.anos = Array.from(document.querySelectorAll('.chk-anos:checked')).map(el=>el.value);
+            filtrosAtivos.meses = Array.from(document.querySelectorAll('.chk-meses:checked')).map(el=>el.value);
+            filtrosAtivos.catDiesel = Array.from(document.querySelectorAll('.chk-catDiesel:checked')).map(el=>el.value);
+            
+            filtrosAtivos.galpao = Array.from(document.querySelectorAll('.chk-galpao:checked')).map(el=>el.value);
+            filtrosAtivos.genetica = Array.from(document.querySelectorAll('.chk-genetica:checked')).map(el=>el.value);
+            filtrosAtivos.fornecedor = Array.from(document.querySelectorAll('.chk-fornecedor:checked')).map(el=>el.value);
+            
+            atualizarDashboard();
+        }
+
+        function checarData(row) { const {ano, mes} = extrairAnoMes(getDataValue(row)); return (filtrosAtivos.anos.includes(ano) && filtrosAtivos.meses.includes(mes)); }
+
+        // Nova checagem dupla (Data + Zootecnico)
+        function checarZootec(row) {
+            if (!checarData(row)) return false;
+            
+            const galpao = (getFuzzyValue(row, ['galpão', 'galpao']) || "").trim();
+            if (galpao && !filtrosAtivos.galpao.includes(galpao)) return false;
+            
+            const gen = (getFuzzyValue(row, ['linhagem', 'linha']) || "").trim();
+            if (gen && !filtrosAtivos.genetica.includes(gen)) return false;
+            
+            const fRaw = getFuzzyValue(row, ['forn']) || "";
+            const fornecedores = String(fRaw).split(/[\/,\-&]/).map(x => x.trim()).filter(x => x && x.toLowerCase() !== "s/i");
+            if (fornecedores.length > 0) {
+                // Deixa passar se a linha tiver Pelo Menos 1 fornecedor que o utilizador selecionou
+                const temForn = fornecedores.some(f => filtrosAtivos.fornecedor.includes(f));
+                if (!temForn) return false;
+            }
+            return true;
+        }
+
+        function atualizarDashboard() {
+            let totalDiesel = 0; dadosBrutos.diesel.filter(checarData).forEach(r => totalDiesel += parsePtBrNumber(getFuzzyValue(r, ['valor', 'total'])));
+            let totalRacao = 0; dadosBrutos.racao.filter(checarData).forEach(r => totalRacao += parsePtBrNumber(getFuzzyValue(r, ['ton'])));
+            let caG = []; dadosBrutos.zootecnico.filter(checarZootec).forEach(r => { let c=parsePtBrNumber(getFuzzyValue(r,['conv.alimen', 'conversão', 'conv.'])); if(c>0) caG.push(c); });
+            
+            document.getElementById('kpi-diesel-global').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(totalDiesel);
+            document.getElementById('kpi-racao-global').innerText = `${totalRacao.toFixed(1)} Ton`;
+            document.getElementById('kpi-zootec-global').innerText = calcMedia(caG).toFixed(3);
+
+            let zooMeses = {}, anoAnoGMD = {}, forn = {}, genetica = {}, idade = {}, encarregado = {};
+            
+            let dadosZoo = dadosBrutos.zootecnico.filter(checarZootec).sort((a,b) => {
+                const d1 = extrairAnoMes(getDataValue(a)), d2 = extrairAnoMes(getDataValue(b));
+                return (d1.ano + String(d1.mesNum).padStart(2,'0')).localeCompare(d2.ano + String(d2.mesNum).padStart(2,'0'));
+            });
+
+            // LÓGICA DO CAMALEÃO: Se não selecionou todos os galpões, agrupa por Fornecedor.
+            const isAllGalpoes = (filtrosAtivos.galpao.length === listasFiltros.galpao.size) || (filtrosAtivos.galpao.length === 0);
+            const tituloEixo = isAllGalpoes ? "Nutrição" : "Fornecedor";
+            
+            document.getElementById('title-zoo-peso').innerText = `Evolução do Peso Final (kg) por ${tituloEixo}`;
+            document.getElementById('title-zoo-gmd').innerText = `Curva Sazonal de GMD por ${tituloEixo}`;
+            document.getElementById('title-zoo-ca').innerText = `Sazonalidade: Conversão Alimentar (CA) por ${tituloEixo}`;
+            document.getElementById('title-zoo-mort').innerText = `Evolução da Mortalidade (%) por ${tituloEixo}`;
+            document.getElementById('title-zoo-custo').innerText = `Custo Alimentar por Kg Vivo (R$) por ${tituloEixo}`;
+
+            dadosZoo.forEach(row => {
+                const dt = extrairAnoMes(getDataValue(row));
+                const labelMes = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                const premix = (getFuzzyValue(row, ['premix', 'nutri']) || "S/Nutrição").trim();
+                
+                const peso = parsePtBrNumber(getFuzzyValue(row, ['peso']));
+                const gmd = parsePtBrNumber(getFuzzyValue(row, ['g.m.d', 'gmd']));
+                const ca = parsePtBrNumber(getFuzzyValue(row, ['conv.alimen', 'conversão', 'conv.'])); 
+                const mort = parsePtBrNumber(getFuzzyValue(row, ['mortos', 'mort']));
+                const custo = parsePtBrNumber(getFuzzyValue(row, ['custo']));
+                const iep = parsePtBrNumber(getFuzzyValue(row, ['i.e.p', 'iep']));
+                
+                const fRaw = getFuzzyValue(row, ['forn']) || "Outro";
+                const fornecedores = String(fRaw).split(/[\/,\-&]/).map(x => x.trim()).filter(x => x && x.toLowerCase() !== "s/i");
+                if (fornecedores.length === 0) fornecedores.push("Outro");
+
+                const gen = getFuzzyValue(row, ['linhagem', 'linha']) || "Outra";
+                const idMatRaw = getFuzzyValue(row, ['idade mat', 'idade']) || "S/I";
+                const encRaw = getFuzzyValue(row, ['encarregado']) || "Outro";
+
+                // Distribui os dados para a Média Global e para o Eixo selecionado (Nutri ou Forn)
+                let gruposDaLinha = isAllGalpoes ? [premix] : fornecedores;
+
+                if(!zooMeses[labelMes]) zooMeses[labelMes] = { 'Global': {p:[], g:[], c:[], m:[], ct:[]} };
+                if(peso>0) zooMeses[labelMes]['Global'].p.push(peso);
+                if(gmd>0) zooMeses[labelMes]['Global'].g.push(gmd);
+                if(ca>0) zooMeses[labelMes]['Global'].c.push(ca);
+                if(mort>0) zooMeses[labelMes]['Global'].m.push(mort);
+                if(custo>0) zooMeses[labelMes]['Global'].ct.push(custo);
+
+                gruposDaLinha.forEach(grp => {
+                    if(!zooMeses[labelMes][grp]) zooMeses[labelMes][grp] = {p:[], g:[], c:[], m:[], ct:[]};
+                    if(peso>0) zooMeses[labelMes][grp].p.push(peso);
+                    if(gmd>0) zooMeses[labelMes][grp].g.push(gmd);
+                    if(ca>0) zooMeses[labelMes][grp].c.push(ca);
+                    if(mort>0) zooMeses[labelMes][grp].m.push(mort);
+                    if(custo>0) zooMeses[labelMes][grp].ct.push(custo);
+                });
+
+                // Ano x Ano
+                if(!anoAnoGMD[dt.mes]) anoAnoGMD[dt.mes] = {};
+                if(!anoAnoGMD[dt.mes][dt.ano]) anoAnoGMD[dt.mes][dt.ano] = [];
+                if(gmd>0) anoAnoGMD[dt.mes][dt.ano].push(gmd);
+
+                fornecedores.forEach(f => {
+                    if(!forn[f]) forn[f] = {g:[], i:[]};
+                    if(gmd>0) forn[f].g.push(gmd); 
+                    if(iep>0) forn[f].i.push(iep);
+                });
+
+                const genNutri = `${gen} - ${premix}`;
+                if(!genetica[genNutri]) genetica[genNutri] = [];
+                if(gmd>0) genetica[genNutri].push(gmd);
+
+                const idadesRaw = String(idMatRaw).split(/[\/,\-&]/);
+                idadesRaw.forEach(val => {
+                    const num = parseInt(val.replace(/\D/g, ''));
+                    if (!isNaN(num) && num >= 15 && num <= 90) {
+                        const idStr = num.toString();
+                        if(!idade[idStr]) idade[idStr] = [];
+                        if(mort>0) idade[idStr].push(mort);
+                    }
+                });
+
+                const encs = String(encRaw).split(/[\/,\-&]/).map(x => x.trim()).filter(x => x && x.toLowerCase() !== "s/i");
+                encs.forEach(enc => {
+                    if(!encarregado[enc]) encarregado[enc] = [];
+                    if(iep>0) encarregado[enc].push(iep);
+                });
+            });
+
+            const labelsMeses = Object.keys(zooMeses);
+            const extrairSerie = (campo) => {
+                let series = {};
+                labelsMeses.forEach(m => {
+                    Object.keys(zooMeses[m]).forEach(px => {
+                        if(!series[px]) series[px] = [];
+                        series[px].push(calcMedia(zooMeses[m][px][campo]));
+                    });
+                });
+                return Object.keys(series).map(px => ({
+                    label: px, data: series[px], 
+                    borderColor: getCorDinamica(px), backgroundColor: 'transparent',
+                    borderDash: px === 'Global' ? [5, 5] : [], tension: 0.4, borderWidth: 3
+                }));
+            };
+
+            desenharMultiLineChart('chartZooPeso', labelsMeses, extrairSerie('p'));
+            desenharMultiLineChart('chartZooGmd', labelsMeses, extrairSerie('g'));
+            desenharMultiLineChart('chartZooCa', labelsMeses, extrairSerie('c'));
+            desenharMultiLineChart('chartZooMort', labelsMeses, extrairSerie('m'));
+            desenharMultiLineChart('chartZooCusto', labelsMeses, extrairSerie('ct'));
+
+            const mesesBase = MESES_ORDEM.filter(m => anoAnoGMD[m]);
+            let seriesAno = {};
+            mesesBase.forEach(m => {
+                Object.keys(anoAnoGMD[m]).forEach(a => {
+                    if(!seriesAno[a]) seriesAno[a] = [];
+                    seriesAno[a].push(calcMedia(anoAnoGMD[m][a]));
+                });
+            });
+            const coresAnos = ['#10b981', '#f59e0b', '#6366f1', '#ef4444'];
+            const dsAno = Object.keys(seriesAno).map((a, i) => ({ label: a, data: seriesAno[a], borderColor: coresAnos[i%4], tension: 0.4, borderWidth: 3 }));
+            desenharMultiLineChart('chartZooGmdAno', mesesBase, dsAno);
+
+            const sortDict = (dict, campo) => Object.keys(dict).map(k => ({k, v: calcMedia(dict[k][campo] || dict[k])})).sort((a,b)=>b.v-a.v);
+            
+            const rankFornGmd = sortDict(forn, 'g');
+            desenharBarChart('chartZooFornGmd', rankFornGmd.map(x=>x.k), rankFornGmd.map(x=>x.v), '#0ea5e9');
+            const rankFornIep = sortDict(forn, 'i');
+            desenharBarChart('chartZooFornIep', rankFornIep.map(x=>x.k), rankFornIep.map(x=>x.v), '#8b5cf6');
+            const rankGen = sortDict(genetica, '');
+            desenharBarChart('chartZooGenetica', rankGen.map(x=>x.k), rankGen.map(x=>x.v), '#f59e0b');
+            const rankIdade = sortDict(idade, '').sort((a,b)=>parseInt(a.k)-parseInt(b.k)); 
+            desenharBarChart('chartZooIdade', rankIdade.map(x=>x.k+' Sem'), rankIdade.map(x=>x.v), '#ef4444');
+            const rankEnc = sortDict(encarregado, '');
+            desenharBarChart('chartZooEncarregado', rankEnc.map(x=>x.k), rankEnc.map(x=>x.v), '#10b981');
+        }
+
+        function getChartInstance(id) { let c = Chart.getChart(id); if(c) c.destroy(); return document.getElementById(id).getContext('2d'); }
+
+        function desenharMultiLineChart(id, labels, datasets) {
+            new Chart(getChartInstance(id), {
+                type: 'line', data: { labels: labels, datasets: datasets },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: {display: false}, legend: {position: 'top'} } }
+            });
+        }
+
+        function desenharBarChart(id, labels, data, cor) {
+            new Chart(getChartInstance(id), {
+                type: 'bar', data: { labels: labels, datasets: [{ data: data, backgroundColor: cor, borderRadius: 4 }] },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: {display: false}, datalabels: { display: isMobile(), color: '#fff', font: {weight: 'bold', size: 9} } } 
+                }
+            });
+        }
+
+        window.onclick = function(e) { if (!e.target.closest('.relative')) document.querySelectorAll('.filter-dropdown').forEach(el => el.classList.remove('active')); }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
+
+        window.onload = carregarDados;
     </script>
 </body>
 </html>
