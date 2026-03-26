@@ -70,7 +70,7 @@
                 <i class="ri-filter-3-line text-lg"></i><span class="text-sm">Filtros</span>
             </button>
 
-            <!-- BARRA DE FILTROS DESKTOP (Escondida no mobile) -->
+            <!-- BARRA DE FILTROS DESKTOP -->
             <div class="hidden md:flex flex-wrap items-center gap-2">
                 <!-- Filtros Globais -->
                 <div class="relative filter-global">
@@ -177,38 +177,32 @@
                             <div class="relative w-full h-64"><canvas id="chartRacMensal"></canvas></div>
                         </div>
                         <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Produção por Fase (Fatec vs Nutritore)</h2>
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Produção por Fase (Ton)</h2>
                             <div class="relative w-full h-64"><canvas id="chartRacFases"></canvas></div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                         <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Evolução do Preço Médio (Histórico)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartRacPrecoEv"></canvas></div>
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Gasto de Matéria Prima - MACRO (Ton)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartGastoMacro"></canvas></div>
                         </div>
                         <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Gasto Total: MACRO vs MICRO (R$)</h2>
-                            <div class="relative w-full h-64 flex justify-center"><canvas id="chartRacGasto"></canvas></div>
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Gasto de Matéria Prima - MICRO (Ton)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartGastoMicro"></canvas></div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Preços Médios Atuais: MACRO (R$/Kg)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartRacPMacro"></canvas></div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Preços Médios Atuais: MICRO (Top 10 R$/Kg)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartRacPMicro"></canvas></div>
-                        </div>
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <h2 class="text-md font-bold text-slate-700 mb-4">Evolução do Preço Médio (Histórico)</h2>
+                        <div class="relative w-full h-64"><canvas id="chartRacPrecoEv"></canvas></div>
                     </div>
 
                     <!-- SIMULADOR DE FÓRMULAS -->
                     <div class="glass-card p-5 rounded-2xl mb-6">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                             <div>
-                                <h2 class="text-md font-bold text-slate-700">Simulador de Custo por Fórmula (1 Tonelada)</h2>
+                                <h2 class="text-md font-bold text-slate-700">Simulador de Custo por Fórmula</h2>
                                 <p class="text-sm text-slate-500">Calcula a receita da fórmula usando os preços das entradas de Matéria Prima.</p>
                             </div>
                             <div class="w-full sm:w-64">
@@ -224,6 +218,8 @@
                                 <h4 class="text-sm font-semibold text-slate-500 uppercase tracking-wider text-center" id="lbl-form-nome">Nenhuma Fórmula</h4>
                                 <p class="text-4xl font-bold text-slate-800 mt-2 text-center" id="lbl-form-custo">R$ 0,00</p>
                                 <p class="text-xs text-slate-400 mt-1">Custo por Tonelada (R$)</p>
+                                <div class="w-full border-t border-slate-200 my-3"></div>
+                                <p class="text-sm font-bold text-brand-600 mt-1 text-center" id="lbl-form-custo-kg">R$ 0,00 / kg</p>
                             </div>
                             <div class="lg:col-span-2 relative w-full h-64"><canvas id="chartForm"></canvas></div>
                         </div>
@@ -266,7 +262,7 @@
     <!-- Overlay do Menu Lateral Normal -->
     <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-[60] hidden md:hidden backdrop-blur-sm"></div>
     
-    <!-- GAVETA DE FILTROS MOBILE (Totalmente Fora do Header) -->
+    <!-- GAVETA DE FILTROS MOBILE -->
     <div id="filter-overlay" onclick="toggleFilterSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
     
     <div id="filter-sidebar-mobile" class="fixed top-0 right-0 h-full w-72 sm:w-80 bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform z-50 overflow-hidden md:hidden">
@@ -310,7 +306,7 @@
 
         try { if (typeof ChartDataLabels !== 'undefined') { Chart.register(ChartDataLabels); } } catch (e) { }
 
-        // LINKS GARANTIDOS (Todos os 5 da Fábrica de Ração)
+        // LINKS GARANTIDOS
         const LINKS_GERAIS = {
             zootecnicos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1289493781&single=true&output=csv",
             diesel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1770890760&single=true&output=csv",
@@ -325,23 +321,23 @@
         };
 
         // Estado Global
-        let dadosBrutos = { diesel: [], prod: [], zootecnico: [], lab: [], hist_preco: [], formulas: [], precos_fallback: {}, gasto: [], entrada: [] };
+        let dadosBrutos = { diesel: [], prod: [], zootecnico: [], lab: [], hist_preco: [], formulas: [], precos: [], gasto: [], entrada: [] };
         let listasFiltros = { anos: new Set(), meses: new Set(), catDiesel: new Set(), galpao: new Set(), genetica: new Set(), fornecedor: new Set() };
         let filtrosAtivos = { anos: [], meses: [], catDiesel: [], galpao: [], genetica: [], fornecedor: [] };
-        window.dictPrecosGlobais = {}; // Para o Simulador
+        window.dictPrecosGlobais = {}; 
 
         const MESES_ORDEM = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
         const CORES_NUTRI = { 'Global': '#64748b', 'Fatec': '#0ea5e9', 'Nutritore': '#f97316' };
         const stringToColor = (str) => { let hash = 0; for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash); const c = (hash & 0x00FFFFFF).toString(16).toUpperCase(); return '#' + '00000'.substring(0, 6 - c.length) + c; };
         const getCorDinamica = (nome) => CORES_NUTRI[nome] || stringToColor(nome);
 
-        // Classificador Inteligente
+        // Classificador Inteligente Atualizado: Apenas os macros solicitados + Óleo
         function isMacro(nome) {
             const n = nome.toLowerCase();
-            return n.includes('milho') || n.includes('farelo') || n.includes('sorgo') || n.includes('farinha') || n.includes('óleo') || n.includes('oleo') || n.includes('sangue') || n.includes('fubá') || n.includes('fuba');
+            return n.includes('milho') || n.includes('farelo') || n.includes('sorgo') || n.includes('farinha') || n.includes('calcário') || n.includes('calcario') || n === 'sal' || n.includes('óleo') || n.includes('oleo');
         }
 
-        // Extratores Robustos (Case Insensitive + Trims)
+        // Extratores Robustos
         function getVal(row, key) {
             if(row[key] !== undefined) return parsePtBrNumber(row[key]);
             if(row[key.toLowerCase()] !== undefined) return parsePtBrNumber(row[key.toLowerCase()]);
@@ -399,15 +395,15 @@
             try { const d = await baixarCSV(LINKS_GERAIS.zootecnicos); if(d.length>0) { processarFiltros('zootecnico', d); s = true; } } catch (e) {}
             try { const d = await baixarCSV(LINKS_GERAIS.lab_milho); if(d.length>0) { processarFiltros('lab', d); s = true; } } catch (e) {}
             
-            // O Leitor Cego (Fuzzy Matcher) - Agora extremamente preciso com as abas da Fábrica!
+            // O Leitor Cego (Fuzzy Matcher) Aprimorado
             for (let url of LINKS_GERAIS.racao_multiplos) {
                 try { 
                     const temp = await baixarCSV(url); 
                     if (temp.length > 0) { 
                         const colsStr = Object.keys(temp[0]).join(' ').toLowerCase();
                         
-                        // 1. ABA PRODUTIVIDADE (Detecta F0, F1 ou Ton Produzidas)
-                        if (colsStr.includes('f0') || colsStr.includes('ton. produzidas') || colsStr.includes('produção/hora')) { 
+                        // 1. ABA PRODUTIVIDADE (Detecta Ton Produzidas de forma exata)
+                        if (colsStr.includes('ton. produzidas') || colsStr.includes('produzidas') || colsStr.includes('produção/hora') || (colsStr.includes('f0') && colsStr.includes('n0') && !colsStr.includes('milho') && !colsStr.includes('dgm'))) { 
                             processarFiltros('prod', temp); s = true; 
                         } 
                         // 2. ABA HISTÓRICO DE PREÇOS
@@ -416,16 +412,20 @@
                         } 
                         // 3. ABA FÓRMULAS BATCH
                         else if (colsStr.includes('codg') && colsStr.includes('fase')) { 
-                            dadosBrutos.formulas = temp; s = true; 
+                            dadosBrutos.formulas = dadosBrutos.formulas.concat(temp); s = true; 
                         } 
-                        // 4. ABA ENTRADA MP
+                        // 4. ABA GASTO BATIDA
+                        else if (colsStr.includes('milho') && colsStr.includes('farelo de soja') && colsStr.includes('f0')) { 
+                            processarFiltros('gasto', temp); s = true; 
+                        }
+                        // 5. ABA DE PREÇOS ESPECÍFICA (Batida Batch e Preço)
+                        else if (colsStr.includes('batida batch') || colsStr.includes('unnamed: 10')) {
+                            dadosBrutos.precos = dadosBrutos.precos.concat(temp); s = true;
+                        }
+                        // 6. ABA ENTRADA MP
                         else if (colsStr.includes('produto') && (colsStr.includes('unitário') || colsStr.includes('unitario') || colsStr.includes('granja'))) { 
                             processarFiltros('entrada', temp); s = true; 
                         } 
-                        // 5. ABA GASTO BATIDA
-                        else if ((colsStr.includes('milho') || colsStr.includes('soja') || colsStr.includes('batida batch')) && !colsStr.includes('codg')) { 
-                            processarFiltros('gasto', temp); s = true; 
-                        }
                     } 
                 } catch(e) { console.warn("Aviso Ração:", e); }
             }
@@ -438,8 +438,14 @@
             }
         }
 
+        // Lógica de concatenação: Se houver várias planilhas da mesma categoria (Ex: produtividade dividida por anos), ele une todas.
         function processarFiltros(tipo, arr) {
-            dadosBrutos[tipo] = arr;
+            if (!dadosBrutos[tipo] || dadosBrutos[tipo].length === 0) {
+                dadosBrutos[tipo] = arr;
+            } else {
+                dadosBrutos[tipo] = dadosBrutos[tipo].concat(arr);
+            }
+
             arr.forEach(row => {
                 const dt = getDataValue(row); if(!dt) return;
                 const {ano, mes} = extrairAnoMes(dt);
@@ -507,7 +513,7 @@
         }
 
         // ============================================================================
-        // MOTOR PRINCIPAL DO DASHBOARD (AGORA DIVIDIDO EM BLOCOS!)
+        // MOTOR PRINCIPAL DO DASHBOARD
         // ============================================================================
         function atualizarDashboard() {
             atualizarPainelGlobal();
@@ -518,7 +524,15 @@
 
         function atualizarPainelGlobal() {
             let totalDiesel = 0; dadosBrutos.diesel.filter(checarData).forEach(r => totalDiesel += parsePtBrNumber(getFuzzyValue(r, ['valor', 'total'])));
-            let totalRacao = 0; dadosBrutos.prod.filter(checarData).forEach(r => totalRacao += parsePtBrNumber(getFuzzyValue(r, ['ton. produzidas', 'ton'])));
+            
+            // Busca a prova de falhas para o nome "Ton. Produzidas"
+            let totalRacao = 0; 
+            dadosBrutos.prod.filter(checarData).forEach(r => {
+                let t = parsePtBrNumber(r['Ton. Produzidas'] || r['Ton. produzidas'] || r['Ton']);
+                if (t === 0) t = parsePtBrNumber(getFuzzyValue(r, ['ton.', 'produzidas', 'produção']));
+                totalRacao += t;
+            });
+            
             let caG = []; dadosBrutos.zootecnico.filter(checarZootec).forEach(r => { let c=parsePtBrNumber(getFuzzyValue(r,['conv.alimen', 'conversão', 'conv.'])); if(c>0) caG.push(c); });
             
             document.getElementById('kpi-diesel-global').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(totalDiesel);
@@ -530,47 +544,58 @@
         // BLOCO 1: FÁBRICA DE RAÇÃO
         // ============================================================================
         function atualizarBlocoFabricaRacao() {
-            if(dadosBrutos.prod.length === 0 && dadosBrutos.entrada.length === 0) return;
+            if(dadosBrutos.prod.length === 0 && dadosBrutos.gasto.length === 0) return;
 
-            // 1. PROCESSAR PREÇOS DA ABA ENTRADA
+            // 1. PROCESSAR PREÇOS (Prioriza Tabela Específica de Preços, depois Entradas)
+            window.dictPrecosGlobais = {};
+            if (dadosBrutos.precos && dadosBrutos.precos.length > 0) {
+                 dadosBrutos.precos.forEach(r => {
+                      const keys = Object.keys(r);
+                      const nome = (r[keys[0]] || '').toString().trim().toUpperCase();
+                      const preco = parsePtBrNumber(r[keys[1]]);
+                      if (nome && preco > 0 && !nome.includes('▶️')) window.dictPrecosGlobais[nome] = preco;
+                 });
+            }
             let tempPrecos = {};
             dadosBrutos.entrada.filter(checarData).forEach(r => {
                 const prod = (getFuzzyValue(r, ['produto', 'prod', 'descri']) || "").trim().toUpperCase();
                 const val = parsePtBrNumber(getFuzzyValue(r, ['valor', 'unitário', 'unit', 'preço']));
                 if (prod && val > 0) {
                     if (!tempPrecos[prod]) tempPrecos[prod] = { sum: 0, count: 0 };
-                    tempPrecos[prod].sum += val;
-                    tempPrecos[prod].count += 1;
+                    tempPrecos[prod].sum += val; tempPrecos[prod].count += 1;
                 }
             });
-            window.dictPrecosGlobais = {};
-            Object.keys(tempPrecos).forEach(k => window.dictPrecosGlobais[k] = tempPrecos[k].sum / tempPrecos[k].count);
+            Object.keys(tempPrecos).forEach(k => {
+                if (!window.dictPrecosGlobais[k]) window.dictPrecosGlobais[k] = tempPrecos[k].sum / tempPrecos[k].count;
+            });
 
-            // 2. PROCESSAR PRODUÇÃO (TON E FASES)
-            let racaoMensalFatec = {}; let racaoMensalNutri = {};
+            // 2. PROCESSAR PRODUÇÃO (TON MENSAL E FASES FATEC VS NUTRITORE)
+            let racaoMensal = {}; 
             let prodFases = { F0:0, F1:0, F2:0, F3:0, N0:0, N1:0, N2:0, N3:0 };
-            let totalRacao = 0;
 
             dadosBrutos.prod.filter(checarData).sort((a,b) => {
                 const d1 = extrairAnoMes(getDataValue(a)), d2 = extrairAnoMes(getDataValue(b));
                 return (d1.ano + String(d1.mesNum).padStart(2,'0')).localeCompare(d2.ano + String(d2.mesNum).padStart(2,'0'));
             }).forEach(r => {
-                const f0 = getVal(r,'F0'); const f1 = getVal(r,'F1'); const f2 = getVal(r,'F2'); const f3 = getVal(r,'F3');
-                const n0 = getVal(r,'N0'); const n1 = getVal(r,'N1'); const n2 = getVal(r,'N2'); const n3 = getVal(r,'N3');
-                
-                const sumF = f0 + f1 + f2 + f3;
-                const sumN = n0 + n1 + n2 + n3;
-                const tonDiaria = sumF + sumN;
-                totalRacao += tonDiaria;
-
                 const dt = extrairAnoMes(getDataValue(r));
                 if(dt.mes && dt.ano) {
                     const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
-                    racaoMensalFatec[mLabel] = (racaoMensalFatec[mLabel] || 0) + sumF;
-                    racaoMensalNutri[mLabel] = (racaoMensalNutri[mLabel] || 0) + sumN;
                     
-                    prodFases.F0 += f0; prodFases.F1 += f1; prodFases.F2 += f2; prodFases.F3 += f3;
-                    prodFases.N0 += n0; prodFases.N1 += n1; prodFases.N2 += n2; prodFases.N3 += n3;
+                    // Busca exata nas chaves para evitar erros do fuzzy search
+                    let tonProduzida = parsePtBrNumber(r['Ton. Produzidas'] || r['Ton. produzidas'] || r['Ton']);
+                    if (tonProduzida === 0) tonProduzida = parsePtBrNumber(getFuzzyValue(r, ['ton.', 'produzidas', 'produção']));
+                    
+                    racaoMensal[mLabel] = (racaoMensal[mLabel] || 0) + tonProduzida;
+                    
+                    // Busca Exata de Fases
+                    prodFases.F0 += parsePtBrNumber(r['F0'] || r['f0']) || parsePtBrNumber(getFuzzyValue(r, ['f0'])) || 0; 
+                    prodFases.F1 += parsePtBrNumber(r['F1'] || r['f1']) || parsePtBrNumber(getFuzzyValue(r, ['f1'])) || 0; 
+                    prodFases.F2 += parsePtBrNumber(r['F2'] || r['f2']) || parsePtBrNumber(getFuzzyValue(r, ['f2'])) || 0; 
+                    prodFases.F3 += parsePtBrNumber(r['F3'] || r['f3']) || parsePtBrNumber(getFuzzyValue(r, ['f3'])) || 0;
+                    prodFases.N0 += parsePtBrNumber(r['N0'] || r['n0']) || parsePtBrNumber(getFuzzyValue(r, ['n0'])) || 0; 
+                    prodFases.N1 += parsePtBrNumber(r['N1'] || r['n1']) || parsePtBrNumber(getFuzzyValue(r, ['n1'])) || 0; 
+                    prodFases.N2 += parsePtBrNumber(r['N2'] || r['n2']) || parsePtBrNumber(getFuzzyValue(r, ['n2'])) || 0; 
+                    prodFases.N3 += parsePtBrNumber(r['N3'] || r['n3']) || parsePtBrNumber(getFuzzyValue(r, ['n3'])) || 0;
                 }
             });
 
@@ -589,9 +614,9 @@
                 }
             });
 
-            // 4. CUSTO MACRO VS MICRO
-            let gastoMacro = 0, gastoMicro = 0;
-            let colsNaoIngrediente = ['data', 'ultima', 'hora', 'batida', 'fase', 'versao', 'produção', 'producao', 'ton'];
+            // 4. GASTO MACRO VS MICRO EM TONELADAS
+            let macroTon = {}; let microTon = {};
+            let colsNaoIngrediente = ['data', 'ultima', 'hora', 'batida', 'fase', 'versao', 'produção', 'producao', 'ton', 'sist'];
             
             dadosBrutos.gasto.filter(checarData).forEach(r => {
                 Object.keys(r).forEach(k => {
@@ -599,9 +624,12 @@
                     if(colsNaoIngrediente.some(x => key.includes(x.toUpperCase()))) return;
                     let kg = parsePtBrNumber(r[k]);
                     if(kg > 0) {
-                         let price = window.getPriceForIngredient(key);
-                         let val = kg * price;
-                         if (isMacro(key)) gastoMacro += val; else gastoMicro += val;
+                        let ton = kg / 1000;
+                        if (isMacro(key)) {
+                            macroTon[key] = (macroTon[key] || 0) + ton;
+                        } else {
+                            microTon[key] = (microTon[key] || 0) + ton;
+                        }
                     }
                 });
             });
@@ -612,13 +640,10 @@
             new Chart(ctxRacMensal, {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(racaoMensalFatec),
-                    datasets: [
-                        { label: 'Fatec', data: Object.values(racaoMensalFatec), backgroundColor: '#0ea5e9' },
-                        { label: 'Nutritore', data: Object.values(racaoMensalNutri), backgroundColor: '#f97316' }
-                    ]
+                    labels: Object.keys(racaoMensal),
+                    datasets: [{ label: 'Toneladas Produzidas', data: Object.values(racaoMensal), backgroundColor: '#0ea5e9', borderRadius: 4 }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false } }, scales: {x: {stacked: true}, y: {stacked: true}} }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false }, legend: { display: false } } }
             });
             
             const ctxFases = document.getElementById('chartRacFases').getContext('2d');
@@ -628,11 +653,35 @@
                 data: {
                     labels: ['Pré Inicial (0)', 'Inicial (1)', 'Crescimento (2)', 'Final (3)'],
                     datasets: [
-                        { label: 'Fatec', data: [prodFases.F0, prodFases.F1, prodFases.F2, prodFases.F3], backgroundColor: '#0ea5e9' },
-                        { label: 'Nutritore', data: [prodFases.N0, prodFases.N1, prodFases.N2, prodFases.N3], backgroundColor: '#f97316' }
+                        { label: 'Fatec', data: [prodFases.F0, prodFases.F1, prodFases.F2, prodFases.F3], backgroundColor: '#0ea5e9', borderRadius: 4 },
+                        { label: 'Nutritore', data: [prodFases.N0, prodFases.N1, prodFases.N2, prodFases.N3], backgroundColor: '#f97316', borderRadius: 4 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false } } }
+            });
+
+            const sortData = (obj) => {
+                let sortedKeys = Object.keys(obj).sort((a,b) => obj[b] - obj[a]);
+                return { labels: sortedKeys, data: sortedKeys.map(k => obj[k]) };
+            };
+            
+            const mSorted = sortData(macroTon);
+            const miSorted = sortData(microTon);
+
+            const ctxMacro = document.getElementById('chartGastoMacro').getContext('2d');
+            let cMacro = Chart.getChart('chartGastoMacro'); if(cMacro) cMacro.destroy();
+            new Chart(ctxMacro, {
+                type: 'doughnut',
+                data: { labels: mSorted.labels, datasets: [{ data: mSorted.data, backgroundColor: ['#f59e0b', '#d97706', '#b45309', '#fcd34d', '#78350f', '#fbbf24', '#e4a11b'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false }, legend: { position: 'right' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw.toFixed(2)} Ton` } } } }
+            });
+
+            const ctxMicro = document.getElementById('chartGastoMicro').getContext('2d');
+            let cMicro = Chart.getChart('chartGastoMicro'); if(cMicro) cMicro.destroy();
+            new Chart(ctxMicro, {
+                type: 'doughnut',
+                data: { labels: miSorted.labels, datasets: [{ data: miSorted.data, backgroundColor: ['#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e', '#6366f1', '#3b82f6', '#0ea5e9'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false }, legend: { position: 'right' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw.toFixed(3)} Ton` } } } }
             });
 
             const ctxPrecoE = document.getElementById('chartRacPrecoEv').getContext('2d');
@@ -648,37 +697,6 @@
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false } } }
             });
-
-            const ctxGasto = document.getElementById('chartRacGasto').getContext('2d');
-            let cGasto = Chart.getChart('chartRacGasto'); if(cGasto) cGasto.destroy();
-            new Chart(ctxGasto, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Macro (Milho, Soja, etc)', 'Micro (Premix, etc)'],
-                    datasets: [{ data: [gastoMacro, gastoMicro], backgroundColor: ['#f59e0b', '#10b981'], borderWidth: 0 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false }, legend: { position: 'right' } } }
-            });
-
-            let pMacro = [], pMicro = [];
-            Object.keys(window.dictPrecosGlobais).forEach(k => {
-                const v = window.dictPrecosGlobais[k];
-                if (isMacro(k)) pMacro.push({k: k, v: v});
-                else pMicro.push({k: k, v: v});
-            });
-            pMacro.sort((a,b)=>b.v-a.v);
-            pMicro.sort((a,b)=>b.v-a.v);
-
-            function desenharBarraH(id, d, cor) {
-                const ctx = document.getElementById(id).getContext('2d');
-                let c = Chart.getChart(id); if(c) c.destroy();
-                new Chart(ctx, {
-                    type: 'bar', data: { labels: d.map(x=>x.k), datasets: [{ data: d.map(x=>x.v), backgroundColor: cor, borderRadius: 4 }] },
-                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend:{display:false}, datalabels:{display:isMobile(), color:'#fff', font:{weight:'bold', size:9}, formatter: v=>'R$'+v.toFixed(2)} } }
-                });
-            }
-            desenharBarraH('chartRacPMacro', pMacro, '#f59e0b');
-            desenharBarraH('chartRacPMicro', pMicro.slice(0, 15), '#10b981');
         }
 
         // ============================================================================
@@ -880,7 +898,8 @@
             if(!formulaRow) return;
 
             let compFormula = [];
-            let custoTotal1Ton = 0;
+            let custoTotalFormula = 0;
+            let totalKg = 0;
             let colunasNaoIngredientes = ['fase', 'versão', 'versao', 'codg', 'total', 'ultima', 'data', 'coluna'];
 
             Object.keys(formulaRow).forEach(col => {
@@ -891,15 +910,20 @@
                 if(qtdKg > 0) {
                     let precoUnit = window.getPriceForIngredient(colUpper);
                     const custo = qtdKg * precoUnit;
-                    custoTotal1Ton += custo;
+                    custoTotalFormula += custo;
+                    totalKg += qtdKg;
                     compFormula.push({ nome: colUpper, qtd: qtdKg, custo: custo, preco: precoUnit });
                 }
             });
 
             compFormula.sort((a,b) => b.custo - a.custo);
+            
+            let custoKg = totalKg > 0 ? (custoTotalFormula / totalKg) : 0;
+            let custo1Ton = custoKg * 1000;
 
             document.getElementById('lbl-form-nome').innerText = `Fórmula: ${fase} (v${versao})`;
-            document.getElementById('lbl-form-custo').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(custoTotal1Ton);
+            document.getElementById('lbl-form-custo').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(custo1Ton);
+            document.getElementById('lbl-form-custo-kg').innerText = `${new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL', minimumFractionDigits: 4}).format(custoKg)} / kg`;
 
             const ctx = document.getElementById('chartForm').getContext('2d');
             let chartForm = Chart.getChart('chartForm'); if(chartForm) chartForm.destroy();
