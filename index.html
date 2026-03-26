@@ -13,9 +13,7 @@
 
     <script>
         tailwind.config = {
-            theme: {
-                extend: { colors: { brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } }
-            }
+            theme: { extend: { colors: { brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } } }
         }
     </script>
     <style>
@@ -28,10 +26,9 @@
         .filter-dropdown.active { display: block; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
+<body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden relative">
 
-    <!-- SIDEBAR PRINCIPAL (MENU DE NAVEGAÇÃO) -->
-    <aside id="sidebar" class="bg-slate-900 text-white w-64 flex-shrink-0 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 fixed md:relative z-50 h-full shadow-2xl">
+    <aside id="sidebar" class="bg-slate-900 text-white w-64 flex-shrink-0 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 fixed md:relative z-[70] h-full shadow-2xl">
         <div class="h-16 flex items-center justify-between px-6 border-b border-slate-700">
             <div class="flex items-center gap-2 font-bold text-xl tracking-tight">
                 <i class="ri-bar-chart-box-line text-brand-500"></i>
@@ -63,91 +60,74 @@
     </aside>
 
     <main class="flex-1 flex flex-col h-full overflow-hidden relative">
-        <header class="glass-card border-b border-slate-200 z-40 px-4 py-3 flex items-center justify-between">
+        <header class="glass-card border-b border-slate-200 z-30 px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3 sm:gap-4">
                 <button onclick="toggleSidebar()" class="md:hidden text-slate-500 hover:text-brand-600 transition-colors"><i class="ri-menu-2-line text-2xl"></i></button>
                 <h1 id="page-title" class="text-lg sm:text-xl font-bold text-slate-800 truncate">Painel Central</h1>
             </div>
             
-            <!-- Botão que abre a gaveta de Filtros no Telemóvel -->
             <button onclick="toggleFilterSidebar()" class="md:hidden flex items-center gap-1.5 text-brand-600 bg-brand-50 px-3 py-1.5 rounded-md border border-brand-200 font-medium shadow-sm active:bg-brand-100">
-                <i class="ri-filter-3-line text-lg"></i>
-                <span class="text-sm">Filtros</span>
+                <i class="ri-filter-3-line text-lg"></i><span class="text-sm">Filtros</span>
             </button>
 
-            <!-- GAVETA DE FILTROS (Lateral no Mobile / Horizontal no Desktop) -->
-            <div id="filter-sidebar" class="fixed md:relative top-0 right-0 h-full md:h-auto w-72 md:w-auto bg-white md:bg-transparent shadow-2xl md:shadow-none p-5 md:p-0 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-2 transform translate-x-full md:translate-x-0 transition-transform z-50 md:z-auto overflow-y-auto md:overflow-visible">
-                
-                <!-- Cabeçalho da Gaveta de Filtros (Mobile) -->
-                <div class="flex items-center justify-between w-full md:hidden mb-2 border-b border-slate-100 pb-3">
-                    <div class="flex items-center gap-2 font-bold text-slate-700 text-lg">
-                        <i class="ri-filter-3-fill text-brand-500"></i> Filtrar Dados
-                    </div>
-                    <button onclick="toggleFilterSidebar()" class="text-slate-400 hover:text-red-500"><i class="ri-close-line text-2xl"></i></button>
-                </div>
-
+            <!-- BARRA DE FILTROS DESKTOP (Escondida no mobile) -->
+            <div class="hidden md:flex flex-wrap items-center gap-2">
                 <!-- Filtros Globais -->
-                <div class="relative w-full md:w-auto filter-global">
-                    <button onclick="toggleDropdown('drop-ano')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative filter-global">
+                    <button onclick="toggleDropdown('drop-ano')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-calendar-2-line text-brand-500"></i> Ano</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <!-- Efeito Acordeão no Mobile (static) e Flutuante no Desktop (md:absolute) -->
-                    <div id="drop-ano" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-48 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-ano"></div></div>
+                    <div id="drop-ano" class="filter-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-slate-200 z-[60] p-2"><div class="max-h-48 overflow-y-auto" id="lista-ano"></div></div>
                 </div>
-                <div class="relative w-full md:w-auto filter-global">
-                    <button onclick="toggleDropdown('drop-mes')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative filter-global">
+                    <button onclick="toggleDropdown('drop-mes')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-calendar-event-line text-brand-500"></i> Mês</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-mes" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-48 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-mes"></div></div>
+                    <div id="drop-mes" class="filter-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-slate-200 z-[60] p-2"><div class="max-h-48 overflow-y-auto" id="lista-mes"></div></div>
                 </div>
 
-                <!-- Filtros Frota -->
-                <div class="relative w-full md:w-auto filter-frota hidden">
-                    <button onclick="toggleDropdown('drop-cat-diesel')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
-                        <span class="flex items-center gap-2"><i class="ri-gas-station-line text-brand-500"></i> Setor (Diesel)</span> <i class="ri-arrow-down-s-line ml-1"></i>
+                <!-- Filtros Específicos -->
+                <div class="relative filter-frota hidden">
+                    <button onclick="toggleDropdown('drop-cat-diesel')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                        <span class="flex items-center gap-2"><i class="ri-gas-station-line text-brand-500"></i> Setor</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-cat-diesel" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-56 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-cat-diesel"></div></div>
+                    <div id="drop-cat-diesel" class="filter-dropdown absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-[60] p-2"><div class="max-h-48 overflow-y-auto" id="lista-cat-diesel"></div></div>
                 </div>
-
-                <!-- Filtros Zootecnicos -->
-                <div class="relative w-full md:w-auto filter-zootec hidden">
-                    <button onclick="toggleDropdown('drop-galpao')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-galpao')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-home-4-line text-brand-500"></i> Galpão</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-galpao" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-64 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-galpao"></div></div>
+                    <div id="drop-galpao" class="filter-dropdown absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-slate-200 z-[60] p-2"><div class="max-h-48 overflow-y-auto" id="lista-galpao"></div></div>
                 </div>
-                <div class="relative w-full md:w-auto filter-zootec hidden">
-                    <button onclick="toggleDropdown('drop-genetica')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-genetica')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-dna-line text-brand-500"></i> Genética</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-genetica" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-56 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-genetica"></div></div>
+                    <div id="drop-genetica" class="filter-dropdown absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-[60] p-2"><div class="max-h-48 overflow-y-auto" id="lista-genetica"></div></div>
                 </div>
-                <div class="relative w-full md:w-auto filter-zootec hidden">
-                    <button onclick="toggleDropdown('drop-fornecedor')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-fornecedor')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-truck-line text-brand-500"></i> Fornecedor</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-fornecedor" class="filter-dropdown static md:absolute md:right-0 mt-1 md:mt-2 w-full md:w-64 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-fornecedor"></div></div>
+                    <div id="drop-fornecedor" class="filter-dropdown absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-slate-200 z-[60] p-2"><div class="max-h-48 overflow-y-auto" id="lista-fornecedor"></div></div>
                 </div>
 
-                <!-- Botões de Ação na Gaveta -->
-                <div class="w-full md:w-auto mt-auto md:mt-0 pt-4 md:pt-0 border-t border-slate-100 md:border-0 flex gap-2">
-                    <button onclick="limparFiltrosMobile()" class="md:hidden flex-1 bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-semibold py-2.5 rounded-md transition-colors">Selecionar Tudo</button>
-                    <button onclick="aplicarTodosFiltros()" class="flex-1 md:flex-none bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2.5 md:py-1.5 px-4 rounded-md shadow transition-colors">
-                        Aplicar
-                    </button>
-                </div>
+                <button onclick="aplicarTodosFiltros()" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-1.5 px-4 rounded-md shadow transition-colors ml-2">
+                    Aplicar
+                </button>
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-100">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-100 z-10">
             <div id="loader" class="flex flex-col items-center justify-center p-8 mt-10 bg-white rounded-2xl shadow border border-slate-200">
                 <i class="ri-loader-4-line animate-spin text-4xl text-brand-500 mb-4"></i>
                 <span class="text-lg font-bold text-slate-700">A Ler Base de Dados...</span>
-                <span class="text-sm text-slate-500 mt-1">A analisar planilhas da CentralHG (Google Sheets).</span>
+                <span class="text-sm text-slate-500 mt-1">A cruzar planilhas de produção, gastos e entradas.</span>
             </div>
 
             <div id="dashboard-content" style="display: none;">
                 
+                <!-- VIEW 1: PAINEL GLOBAL -->
                 <div id="view-global" class="view-section block">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                         <div class="glass-card p-5 rounded-2xl border-l-4 border-l-blue-500 hover:-translate-y-1 transition-transform">
@@ -165,74 +145,107 @@
                     </div>
                 </div>
 
+                <!-- VIEW 2: ZOOTÉCNICOS -->
                 <div id="view-zootec" class="view-section hidden">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 id="title-zoo-peso" class="text-md font-bold text-slate-700 mb-4">Evolução do Peso Final (kg)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooPeso"></canvas></div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 id="title-zoo-gmd" class="text-md font-bold text-slate-700 mb-4">Curva Sazonal de GMD</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooGmd"></canvas></div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 id="title-zoo-ca" class="text-md font-bold text-slate-700 mb-4">Sazonalidade: Conversão Alimentar (CA)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooCa"></canvas></div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 id="title-zoo-mort" class="text-md font-bold text-slate-700 mb-4">Evolução da Mortalidade (%)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooMort"></canvas></div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Comparativo Anual: Evolução GMD</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooGmdAno"></canvas></div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 id="title-zoo-custo" class="text-md font-bold text-slate-700 mb-4">Custo Alimentar por Kg Vivo (R$)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooCusto"></canvas></div>
-                        </div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 id="title-zoo-peso" class="text-md font-bold text-slate-700 mb-4">Evolução do Peso Final (kg)</h2><div class="relative w-full h-64"><canvas id="chartZooPeso"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 id="title-zoo-gmd" class="text-md font-bold text-slate-700 mb-4">Curva Sazonal de GMD</h2><div class="relative w-full h-64"><canvas id="chartZooGmd"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 id="title-zoo-ca" class="text-md font-bold text-slate-700 mb-4">Sazonalidade: Conversão Alimentar (CA)</h2><div class="relative w-full h-64"><canvas id="chartZooCa"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 id="title-zoo-mort" class="text-md font-bold text-slate-700 mb-4">Evolução da Mortalidade (%)</h2><div class="relative w-full h-64"><canvas id="chartZooMort"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Comparativo Anual: Evolução GMD</h2><div class="relative w-full h-64"><canvas id="chartZooGmdAno"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 id="title-zoo-custo" class="text-md font-bold text-slate-700 mb-4">Custo Alimentar por Kg Vivo (R$)</h2><div class="relative w-full h-64"><canvas id="chartZooCusto"></canvas></div></div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Top Fornecedores (GMD)</h2><div class="relative w-full h-64"><canvas id="chartZooFornGmd"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Top Fornecedores (IEP)</h2><div class="relative w-full h-64"><canvas id="chartZooFornIep"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Genética x Nutrição (GMD Médio)</h2><div class="relative w-full h-64"><canvas id="chartZooGenetica"></canvas></div></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Idade da Matriz vs Mortalidade (%)</h2><div class="relative w-full h-64"><canvas id="chartZooIdade"></canvas></div></div>
+                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Ranking Desempenho: Encarregados (IEP)</h2><div class="relative w-full overflow-x-auto" style="min-height: 256px;"><div style="min-width: 600px; height: 100%;"><canvas id="chartZooEncarregado"></canvas></div></div></div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: FÁBRICA DE RAÇÃO -->
+                <div id="view-racao" class="view-section hidden">
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                         <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Top Fornecedores (GMD)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooFornGmd"></canvas></div>
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Produção Mensal de Ração (Ton)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartRacMensal"></canvas></div>
                         </div>
                         <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Top Fornecedores (IEP)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooFornIep"></canvas></div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Genética x Nutrição (GMD Médio)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooGenetica"></canvas></div>
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Produção por Fase (Fatec vs Nutritore)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartRacFases"></canvas></div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                         <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Idade da Matriz vs Mortalidade (%)</h2>
-                            <div class="relative w-full h-64"><canvas id="chartZooIdade"></canvas></div>
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Evolução do Preço Médio (Histórico)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartRacPrecoEv"></canvas></div>
                         </div>
                         <div class="glass-card p-5 rounded-2xl">
-                            <h2 class="text-md font-bold text-slate-700 mb-4">Ranking Desempenho: Encarregados (IEP)</h2>
-                            <div class="relative w-full overflow-x-auto" style="min-height: 256px;">
-                                <div style="min-width: 600px; height: 100%;"><canvas id="chartZooEncarregado"></canvas></div>
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Gasto Total: MACRO vs MICRO (R$)</h2>
+                            <div class="relative w-full h-64 flex justify-center"><canvas id="chartRacGasto"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Preços Médios Atuais: MACRO (R$/Kg)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartRacPMacro"></canvas></div>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Preços Médios Atuais: MICRO (Top 10 R$/Kg)</h2>
+                            <div class="relative w-full h-64"><canvas id="chartRacPMicro"></canvas></div>
+                        </div>
+                    </div>
+
+                    <!-- SIMULADOR DE FÓRMULAS -->
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h2 class="text-md font-bold text-slate-700">Simulador de Custo por Fórmula (1 Tonelada)</h2>
+                                <p class="text-sm text-slate-500">Calcula a receita da fórmula usando os preços das entradas de Matéria Prima.</p>
                             </div>
+                            <div class="w-full sm:w-64">
+                                <select id="select-formula" onchange="atualizarGraficoFormula()" class="w-full bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-2.5">
+                                    <option value="">Selecione uma Fórmula...</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div class="lg:col-span-1 flex flex-col justify-center items-center bg-slate-50 rounded-xl p-6 border border-slate-100">
+                                <i class="ri-flask-line text-4xl text-brand-500 mb-2"></i>
+                                <h4 class="text-sm font-semibold text-slate-500 uppercase tracking-wider text-center" id="lbl-form-nome">Nenhuma Fórmula</h4>
+                                <p class="text-4xl font-bold text-slate-800 mt-2 text-center" id="lbl-form-custo">R$ 0,00</p>
+                                <p class="text-xs text-slate-400 mt-1">Custo por Tonelada (R$)</p>
+                            </div>
+                            <div class="lg:col-span-2 relative w-full h-64"><canvas id="chartForm"></canvas></div>
                         </div>
                     </div>
                 </div>
 
-                <div id="view-racao" class="view-section hidden">
-                    <div class="glass-card p-5 rounded-2xl mb-6">
-                        <h2 class="text-md font-bold text-slate-700 mb-4">Produção de Ração Mensal (Ton)</h2>
-                        <div class="relative w-full h-64"><canvas id="chartRacaoMensal"></canvas></div>
-                    </div>
-                </div>
-
+                <!-- VIEW 4: FROTA E LABORATÓRIO -->
                 <div id="view-frota" class="view-section hidden">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                         <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Custo Diesel (R$)</h2><div class="relative w-full h-64"><canvas id="chartDiesel"></canvas></div></div>
                         <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Diesel por Setor</h2><div class="relative w-full h-64"><canvas id="chartSetorDiesel"></canvas></div></div>
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl overflow-hidden">
+                        <h2 class="text-md font-bold text-slate-700 mb-4">Top 5 Placas - Maior Custo de Diesel</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                                    <tr><th class="px-4 py-3">Placa</th><th class="px-4 py-3">Setor (Tipo)</th><th class="px-4 py-3">Custo Total (R$)</th></tr>
+                                </thead>
+                                <tbody id="tabela-veiculos" class="divide-y divide-slate-100"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -250,23 +263,54 @@
         </div>
     </main>
 
-    <!-- Overlay do Menu Lateral -->
-    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm"></div>
+    <!-- Overlay do Menu Lateral Normal -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-[60] hidden md:hidden backdrop-blur-sm"></div>
     
-    <!-- Overlay da Gaveta de Filtros -->
-    <div id="filter-overlay" onclick="toggleFilterSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm"></div>
+    <!-- GAVETA DE FILTROS MOBILE (Totalmente Fora do Header) -->
+    <div id="filter-overlay" onclick="toggleFilterSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+    
+    <div id="filter-sidebar-mobile" class="fixed top-0 right-0 h-full w-72 sm:w-80 bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform z-50 overflow-hidden md:hidden">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50 shrink-0">
+            <div class="flex items-center gap-2 font-bold text-slate-700 text-lg">
+                <i class="ri-filter-3-fill text-brand-500"></i> Filtros Ativos
+            </div>
+            <button onclick="toggleFilterSidebar()" class="text-slate-400 hover:text-red-500"><i class="ri-close-line text-2xl"></i></button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-5 flex flex-col gap-5">
+            <div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Anos</p>
+                <div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-ano-mob"></div>
+            </div>
+            <hr class="border-slate-100">
+            <div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Meses</p>
+                <div class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-2" id="lista-mes-mob"></div>
+            </div>
+            
+            <div class="filter-frota hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Setor Diesel</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-cat-diesel-mob"></div></div>
+            <div class="filter-zootec hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Galpão</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-galpao-mob"></div></div>
+            <div class="filter-zootec hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Genética</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-genetica-mob"></div></div>
+            <div class="filter-zootec hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fornecedor</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-fornecedor-mob"></div></div>
+        </div>
+
+        <div class="p-4 border-t border-slate-100 bg-slate-50 flex gap-2 shrink-0">
+            <button onclick="limparFiltrosMobile()" class="flex-1 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-semibold py-2.5 rounded-md transition-colors">Marcar Todos</button>
+            <button onclick="aplicarTodosFiltros()" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2.5 rounded-md shadow transition-colors">Aplicar</button>
+        </div>
+    </div>
 
     <script>
         window.onerror = function(msg, source, lineno) {
             const l = document.getElementById('loader');
             if (l && document.getElementById('dashboard-content').style.display === 'none') {
-                l.innerHTML = `<i class='ri-bug-line text-4xl text-red-500 mb-2'></i><span class="font-bold text-slate-700">Erro</span><span class="text-sm text-slate-500">${msg} (Linha ${lineno})</span>`;
+                l.innerHTML = `<i class='ri-bug-line text-4xl text-red-500 mb-2'></i><span class="font-bold text-slate-700">Erro Crítico</span><span class="text-sm text-slate-500">${msg} (Linha ${lineno})</span>`;
             }
         };
 
         try { if (typeof ChartDataLabels !== 'undefined') { Chart.register(ChartDataLabels); } } catch (e) { }
 
-        // LINKS
+        // LINKS GARANTIDOS (Todos os 5 da Fábrica de Ração)
         const LINKS_GERAIS = {
             zootecnicos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1289493781&single=true&output=csv",
             diesel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1770890760&single=true&output=csv",
@@ -274,35 +318,43 @@
             racao_multiplos: [
                 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1450362820&single=true&output=csv",
                 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=812917303&single=true&output=csv",
-                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1293892436&single=true&output=csv"
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1293892436&single=true&output=csv",
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1996712500&single=true&output=csv",
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=490868747&single=true&output=csv"
             ]
         };
 
-        let dadosBrutos = { diesel: [], racao: [], zootecnico: [], lab: [] };
+        // Estado Global
+        let dadosBrutos = { diesel: [], prod: [], zootecnico: [], lab: [], hist_preco: [], formulas: [], precos_fallback: {}, gasto: [], entrada: [] };
         let listasFiltros = { anos: new Set(), meses: new Set(), catDiesel: new Set(), galpao: new Set(), genetica: new Set(), fornecedor: new Set() };
         let filtrosAtivos = { anos: [], meses: [], catDiesel: [], galpao: [], genetica: [], fornecedor: [] };
+        window.dictPrecosGlobais = {}; // Para o Simulador
 
         const MESES_ORDEM = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-        
-        // Cores Dinâmicas e Fixas
         const CORES_NUTRI = { 'Global': '#64748b', 'Fatec': '#0ea5e9', 'Nutritore': '#f97316' };
-        const stringToColor = (str) => {
-            let hash = 0; for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-            const c = (hash & 0x00FFFFFF).toString(16).toUpperCase(); return '#' + '00000'.substring(0, 6 - c.length) + c;
-        };
+        const stringToColor = (str) => { let hash = 0; for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash); const c = (hash & 0x00FFFFFF).toString(16).toUpperCase(); return '#' + '00000'.substring(0, 6 - c.length) + c; };
         const getCorDinamica = (nome) => CORES_NUTRI[nome] || stringToColor(nome);
 
-        // UTILITÁRIOS
+        // Classificador Inteligente
+        function isMacro(nome) {
+            const n = nome.toLowerCase();
+            return n.includes('milho') || n.includes('farelo') || n.includes('sorgo') || n.includes('farinha') || n.includes('óleo') || n.includes('oleo') || n.includes('sangue') || n.includes('fubá') || n.includes('fuba');
+        }
+
+        // Extratores Robustos (Case Insensitive + Trims)
+        function getVal(row, key) {
+            if(row[key] !== undefined) return parsePtBrNumber(row[key]);
+            if(row[key.toLowerCase()] !== undefined) return parsePtBrNumber(row[key.toLowerCase()]);
+            const found = Object.keys(row).find(k => k.toLowerCase() === key.toLowerCase());
+            return found ? parsePtBrNumber(row[found]) : 0;
+        }
+
         function getFuzzyValue(row, keywords) {
-            if (!row) return null;
-            const keys = Object.keys(row);
-            for (let kw of keywords) {
-                const found = keys.find(k => k.toLowerCase().includes(kw.toLowerCase()));
-                if (found !== undefined) return row[found];
-            }
+            if (!row) return null; const keys = Object.keys(row);
+            for (let kw of keywords) { const found = keys.find(k => k.toLowerCase().includes(kw.toLowerCase())); if (found !== undefined) return row[found]; }
             return null;
         }
-        function getDataValue(row) { return getFuzzyValue(row, ['data']) || Object.values(row)[0]; }
+        function getDataValue(row) { return getFuzzyValue(row, ['data', 'date', 'dt']) || Object.values(row)[0]; }
         function parsePtBrNumber(str) { return parseFloat((str||'').toString().trim().replace(/\./g, '').replace(',', '.')) || 0; }
         function extrairAnoMes(dataBR) {
             if(!dataBR || typeof dataBR !== 'string') return { ano: '', mes: '' };
@@ -313,9 +365,9 @@
         function isMobile() { return window.innerWidth < 768; }
         function calcMedia(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
 
-        // NAVEGAÇÃO E UX
+        // NAVEGAÇÃO E GAVETAS
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
-        function toggleFilterSidebar() { document.getElementById('filter-sidebar').classList.toggle('translate-x-full'); document.getElementById('filter-overlay').classList.toggle('hidden'); }
+        function toggleFilterSidebar() { document.getElementById('filter-sidebar-mobile').classList.toggle('translate-x-full'); document.getElementById('filter-overlay').classList.toggle('hidden'); }
         
         function changeView(viewId) {
             document.querySelectorAll('.view-section').forEach(el => { el.classList.add('hidden'); el.classList.remove('block'); });
@@ -347,14 +399,42 @@
             try { const d = await baixarCSV(LINKS_GERAIS.zootecnicos); if(d.length>0) { processarFiltros('zootecnico', d); s = true; } } catch (e) {}
             try { const d = await baixarCSV(LINKS_GERAIS.lab_milho); if(d.length>0) { processarFiltros('lab', d); s = true; } } catch (e) {}
             
+            // O Leitor Cego (Fuzzy Matcher) - Agora extremamente preciso com as abas da Fábrica!
             for (let url of LINKS_GERAIS.racao_multiplos) {
-                try { const temp = await baixarCSV(url); if (temp.length>0 && Object.keys(temp[0]).some(k=>k.toLowerCase().includes('ton'))) { processarFiltros('racao', temp); s = true; break; } } catch(e) {}
+                try { 
+                    const temp = await baixarCSV(url); 
+                    if (temp.length > 0) { 
+                        const colsStr = Object.keys(temp[0]).join(' ').toLowerCase();
+                        
+                        // 1. ABA PRODUTIVIDADE (Detecta F0, F1 ou Ton Produzidas)
+                        if (colsStr.includes('f0') || colsStr.includes('ton. produzidas') || colsStr.includes('produção/hora')) { 
+                            processarFiltros('prod', temp); s = true; 
+                        } 
+                        // 2. ABA HISTÓRICO DE PREÇOS
+                        else if (colsStr.includes('fat') && colsStr.includes('nut') && !colsStr.includes('f0')) { 
+                            processarFiltros('hist_preco', temp); s = true; 
+                        } 
+                        // 3. ABA FÓRMULAS BATCH
+                        else if (colsStr.includes('codg') && colsStr.includes('fase')) { 
+                            dadosBrutos.formulas = temp; s = true; 
+                        } 
+                        // 4. ABA ENTRADA MP
+                        else if (colsStr.includes('produto') && (colsStr.includes('unitário') || colsStr.includes('unitario') || colsStr.includes('granja'))) { 
+                            processarFiltros('entrada', temp); s = true; 
+                        } 
+                        // 5. ABA GASTO BATIDA
+                        else if ((colsStr.includes('milho') || colsStr.includes('soja') || colsStr.includes('batida batch')) && !colsStr.includes('codg')) { 
+                            processarFiltros('gasto', temp); s = true; 
+                        }
+                    } 
+                } catch(e) { console.warn("Aviso Ração:", e); }
             }
 
             if (s) {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('dashboard-content').style.display = 'block';
                 construirMenus(); aplicarTodosFiltros();
+                montarSeletorFormulas();
             }
         }
 
@@ -365,91 +445,247 @@
                 const {ano, mes} = extrairAnoMes(dt);
                 if(ano) listasFiltros.anos.add(ano); if(mes) listasFiltros.meses.add(mes);
 
-                if(tipo === 'diesel') {
-                    const cat = (getFuzzyValue(row, ['veículo', 'tipo ve', 'categoria']) || "").trim();
-                    if(cat.length > 1) listasFiltros.catDiesel.add(cat);
-                }
-
+                if(tipo === 'diesel') { const cat = (getFuzzyValue(row, ['veículo', 'tipo ve', 'categoria']) || "").trim(); if(cat.length > 1) listasFiltros.catDiesel.add(cat); }
                 if(tipo === 'zootecnico') {
-                    const galpao = (getFuzzyValue(row, ['galpão', 'galpao']) || "").trim();
-                    if(galpao.length > 1) listasFiltros.galpao.add(galpao);
-                    
-                    const gen = (getFuzzyValue(row, ['linhagem', 'linha']) || "").trim();
-                    if(gen.length > 1) listasFiltros.genetica.add(gen);
-                    
+                    const galpao = (getFuzzyValue(row, ['galpão', 'galpao']) || "").trim(); if(galpao.length > 1) listasFiltros.galpao.add(galpao);
+                    const gen = (getFuzzyValue(row, ['linhagem', 'linha']) || "").trim(); if(gen.length > 1) listasFiltros.genetica.add(gen);
                     const fRaw = getFuzzyValue(row, ['forn']) || "";
-                    const fornecedores = String(fRaw).split(/[\/,\-&]/).map(x => x.trim()).filter(x => x && x.toLowerCase() !== "s/i");
-                    fornecedores.forEach(f => listasFiltros.fornecedor.add(f));
+                    String(fRaw).split(/[\/,\-&]/).map(x => x.trim()).filter(x => x && x.toLowerCase() !== "s/i").forEach(f => listasFiltros.fornecedor.add(f));
                 }
             });
         }
 
-        function toggleDropdown(id) { 
-            document.querySelectorAll('.filter-dropdown').forEach(el => { if(el.id !== id) el.classList.remove('active'); }); 
-            document.getElementById(id).classList.toggle('active'); 
-        }
+        function toggleDropdown(id) { document.querySelectorAll('.filter-dropdown').forEach(el => { if(el.id !== id) el.classList.remove('active'); }); document.getElementById(id).classList.toggle('active'); }
         
         function construirMenus() {
             const rc = (v, g) => `<label class="flex items-center gap-2 p-1.5 cursor-pointer"><input type="checkbox" value="${v}" class="chk-${g}" checked><span class="text-sm">${v}</span></label>`;
+            
             document.getElementById('lista-ano').innerHTML = Array.from(listasFiltros.anos).sort((a,b)=>b-a).map(v=>rc(v,'anos')).join('');
             document.getElementById('lista-mes').innerHTML = Array.from(listasFiltros.meses).sort((a,b)=>MESES_ORDEM.indexOf(a)-MESES_ORDEM.indexOf(b)).map(v=>rc(v,'meses')).join('');
             document.getElementById('lista-cat-diesel').innerHTML = Array.from(listasFiltros.catDiesel).sort().map(v=>rc(v,'catDiesel')).join('');
-            
             document.getElementById('lista-galpao').innerHTML = Array.from(listasFiltros.galpao).sort().map(v=>rc(v,'galpao')).join('');
             document.getElementById('lista-genetica').innerHTML = Array.from(listasFiltros.genetica).sort().map(v=>rc(v,'genetica')).join('');
             document.getElementById('lista-fornecedor').innerHTML = Array.from(listasFiltros.fornecedor).sort().map(v=>rc(v,'fornecedor')).join('');
+
+            document.getElementById('lista-ano-mob').innerHTML = Array.from(listasFiltros.anos).sort((a,b)=>b-a).map(v=>rc(v,'anos')).join('');
+            document.getElementById('lista-mes-mob').innerHTML = Array.from(listasFiltros.meses).sort((a,b)=>MESES_ORDEM.indexOf(a)-MESES_ORDEM.indexOf(b)).map(v=>rc(v,'meses')).join('');
+            document.getElementById('lista-cat-diesel-mob').innerHTML = Array.from(listasFiltros.catDiesel).sort().map(v=>rc(v,'catDiesel')).join('');
+            document.getElementById('lista-galpao-mob').innerHTML = Array.from(listasFiltros.galpao).sort().map(v=>rc(v,'galpao')).join('');
+            document.getElementById('lista-genetica-mob').innerHTML = Array.from(listasFiltros.genetica).sort().map(v=>rc(v,'genetica')).join('');
+            document.getElementById('lista-fornecedor-mob').innerHTML = Array.from(listasFiltros.fornecedor).sort().map(v=>rc(v,'fornecedor')).join('');
         }
 
-        function limparFiltrosMobile() {
-            document.querySelectorAll('#filter-sidebar input[type="checkbox"]').forEach(cb => cb.checked = true);
-        }
+        function limparFiltrosMobile() { document.querySelectorAll('#filter-sidebar-mobile input[type="checkbox"]').forEach(cb => cb.checked = true); }
 
         function aplicarTodosFiltros() {
             document.querySelectorAll('.filter-dropdown').forEach(el => el.classList.remove('active'));
-            filtrosAtivos.anos = Array.from(document.querySelectorAll('.chk-anos:checked')).map(el=>el.value);
-            filtrosAtivos.meses = Array.from(document.querySelectorAll('.chk-meses:checked')).map(el=>el.value);
-            filtrosAtivos.catDiesel = Array.from(document.querySelectorAll('.chk-catDiesel:checked')).map(el=>el.value);
+            const scope = isMobile() ? '#filter-sidebar-mobile' : 'header';
             
-            filtrosAtivos.galpao = Array.from(document.querySelectorAll('.chk-galpao:checked')).map(el=>el.value);
-            filtrosAtivos.genetica = Array.from(document.querySelectorAll('.chk-genetica:checked')).map(el=>el.value);
-            filtrosAtivos.fornecedor = Array.from(document.querySelectorAll('.chk-fornecedor:checked')).map(el=>el.value);
+            filtrosAtivos.anos = Array.from(document.querySelectorAll(`${scope} .chk-anos:checked`)).map(el=>el.value);
+            filtrosAtivos.meses = Array.from(document.querySelectorAll(`${scope} .chk-meses:checked`)).map(el=>el.value);
+            filtrosAtivos.catDiesel = Array.from(document.querySelectorAll(`${scope} .chk-catDiesel:checked`)).map(el=>el.value);
+            filtrosAtivos.galpao = Array.from(document.querySelectorAll(`${scope} .chk-galpao:checked`)).map(el=>el.value);
+            filtrosAtivos.genetica = Array.from(document.querySelectorAll(`${scope} .chk-genetica:checked`)).map(el=>el.value);
+            filtrosAtivos.fornecedor = Array.from(document.querySelectorAll(`${scope} .chk-fornecedor:checked`)).map(el=>el.value);
             
             atualizarDashboard();
-            
-            // Fecha a gaveta no mobile após aplicar
-            if(isMobile() && !document.getElementById('filter-sidebar').classList.contains('translate-x-full')) {
-                toggleFilterSidebar();
-            }
+            if(isMobile() && !document.getElementById('filter-sidebar-mobile').classList.contains('translate-x-full')) toggleFilterSidebar();
         }
 
         function checarData(row) { const {ano, mes} = extrairAnoMes(getDataValue(row)); return (filtrosAtivos.anos.includes(ano) && filtrosAtivos.meses.includes(mes)); }
 
         function checarZootec(row) {
             if (!checarData(row)) return false;
-            
             const galpao = (getFuzzyValue(row, ['galpão', 'galpao']) || "").trim();
             if (galpao && !filtrosAtivos.galpao.includes(galpao)) return false;
-            
             const gen = (getFuzzyValue(row, ['linhagem', 'linha']) || "").trim();
             if (gen && !filtrosAtivos.genetica.includes(gen)) return false;
-            
             const fRaw = getFuzzyValue(row, ['forn']) || "";
             const fornecedores = String(fRaw).split(/[\/,\-&]/).map(x => x.trim()).filter(x => x && x.toLowerCase() !== "s/i");
-            if (fornecedores.length > 0) {
-                const temForn = fornecedores.some(f => filtrosAtivos.fornecedor.includes(f));
-                if (!temForn) return false;
-            }
+            if (fornecedores.length > 0) { if (!fornecedores.some(f => filtrosAtivos.fornecedor.includes(f))) return false; }
             return true;
         }
 
+        // ============================================================================
+        // MOTOR PRINCIPAL DO DASHBOARD (AGORA DIVIDIDO EM BLOCOS!)
+        // ============================================================================
         function atualizarDashboard() {
+            atualizarPainelGlobal();
+            atualizarBlocoZootecnico();
+            atualizarBlocoFabricaRacao();
+            atualizarBlocosSecundarios();
+        }
+
+        function atualizarPainelGlobal() {
             let totalDiesel = 0; dadosBrutos.diesel.filter(checarData).forEach(r => totalDiesel += parsePtBrNumber(getFuzzyValue(r, ['valor', 'total'])));
-            let totalRacao = 0; dadosBrutos.racao.filter(checarData).forEach(r => totalRacao += parsePtBrNumber(getFuzzyValue(r, ['ton'])));
+            let totalRacao = 0; dadosBrutos.prod.filter(checarData).forEach(r => totalRacao += parsePtBrNumber(getFuzzyValue(r, ['ton. produzidas', 'ton'])));
             let caG = []; dadosBrutos.zootecnico.filter(checarZootec).forEach(r => { let c=parsePtBrNumber(getFuzzyValue(r,['conv.alimen', 'conversão', 'conv.'])); if(c>0) caG.push(c); });
             
             document.getElementById('kpi-diesel-global').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(totalDiesel);
             document.getElementById('kpi-racao-global').innerText = `${totalRacao.toFixed(1)} Ton`;
             document.getElementById('kpi-zootec-global').innerText = calcMedia(caG).toFixed(3);
+        }
+
+        // ============================================================================
+        // BLOCO 1: FÁBRICA DE RAÇÃO
+        // ============================================================================
+        function atualizarBlocoFabricaRacao() {
+            if(dadosBrutos.prod.length === 0 && dadosBrutos.entrada.length === 0) return;
+
+            // 1. PROCESSAR PREÇOS DA ABA ENTRADA
+            let tempPrecos = {};
+            dadosBrutos.entrada.filter(checarData).forEach(r => {
+                const prod = (getFuzzyValue(r, ['produto', 'prod', 'descri']) || "").trim().toUpperCase();
+                const val = parsePtBrNumber(getFuzzyValue(r, ['valor', 'unitário', 'unit', 'preço']));
+                if (prod && val > 0) {
+                    if (!tempPrecos[prod]) tempPrecos[prod] = { sum: 0, count: 0 };
+                    tempPrecos[prod].sum += val;
+                    tempPrecos[prod].count += 1;
+                }
+            });
+            window.dictPrecosGlobais = {};
+            Object.keys(tempPrecos).forEach(k => window.dictPrecosGlobais[k] = tempPrecos[k].sum / tempPrecos[k].count);
+
+            // 2. PROCESSAR PRODUÇÃO (TON E FASES)
+            let racaoMensalFatec = {}; let racaoMensalNutri = {};
+            let prodFases = { F0:0, F1:0, F2:0, F3:0, N0:0, N1:0, N2:0, N3:0 };
+            let totalRacao = 0;
+
+            dadosBrutos.prod.filter(checarData).sort((a,b) => {
+                const d1 = extrairAnoMes(getDataValue(a)), d2 = extrairAnoMes(getDataValue(b));
+                return (d1.ano + String(d1.mesNum).padStart(2,'0')).localeCompare(d2.ano + String(d2.mesNum).padStart(2,'0'));
+            }).forEach(r => {
+                const f0 = getVal(r,'F0'); const f1 = getVal(r,'F1'); const f2 = getVal(r,'F2'); const f3 = getVal(r,'F3');
+                const n0 = getVal(r,'N0'); const n1 = getVal(r,'N1'); const n2 = getVal(r,'N2'); const n3 = getVal(r,'N3');
+                
+                const sumF = f0 + f1 + f2 + f3;
+                const sumN = n0 + n1 + n2 + n3;
+                const tonDiaria = sumF + sumN;
+                totalRacao += tonDiaria;
+
+                const dt = extrairAnoMes(getDataValue(r));
+                if(dt.mes && dt.ano) {
+                    const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                    racaoMensalFatec[mLabel] = (racaoMensalFatec[mLabel] || 0) + sumF;
+                    racaoMensalNutri[mLabel] = (racaoMensalNutri[mLabel] || 0) + sumN;
+                    
+                    prodFases.F0 += f0; prodFases.F1 += f1; prodFases.F2 += f2; prodFases.F3 += f3;
+                    prodFases.N0 += n0; prodFases.N1 += n1; prodFases.N2 += n2; prodFases.N3 += n3;
+                }
+            });
+
+            // 3. EVOLUÇÃO DE PREÇO MÉDIO
+            let precoEvol = {};
+            dadosBrutos.hist_preco.filter(checarData).sort((a,b) => {
+                const d1 = extrairAnoMes(getDataValue(a)), d2 = extrairAnoMes(getDataValue(b));
+                return (d1.ano + String(d1.mesNum).padStart(2,'0')).localeCompare(d2.ano + String(d2.mesNum).padStart(2,'0'));
+            }).forEach(r => {
+                const dt = extrairAnoMes(getDataValue(r));
+                if(dt.mes && dt.ano) {
+                    const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                    if(!precoEvol[mLabel]) precoEvol[mLabel] = { f:[], n:[] };
+                    precoEvol[mLabel].f.push(parsePtBrNumber(getFuzzyValue(r, ['fat'])));
+                    precoEvol[mLabel].n.push(parsePtBrNumber(getFuzzyValue(r, ['nut'])));
+                }
+            });
+
+            // 4. CUSTO MACRO VS MICRO
+            let gastoMacro = 0, gastoMicro = 0;
+            let colsNaoIngrediente = ['data', 'ultima', 'hora', 'batida', 'fase', 'versao', 'produção', 'producao', 'ton'];
+            
+            dadosBrutos.gasto.filter(checarData).forEach(r => {
+                Object.keys(r).forEach(k => {
+                    let key = k.trim().toUpperCase();
+                    if(colsNaoIngrediente.some(x => key.includes(x.toUpperCase()))) return;
+                    let kg = parsePtBrNumber(r[k]);
+                    if(kg > 0) {
+                         let price = window.getPriceForIngredient(key);
+                         let val = kg * price;
+                         if (isMacro(key)) gastoMacro += val; else gastoMicro += val;
+                    }
+                });
+            });
+
+            // 5. DESENHAR GRÁFICOS DA RAÇÃO
+            const ctxRacMensal = document.getElementById('chartRacMensal').getContext('2d');
+            let cRacMensal = Chart.getChart('chartRacMensal'); if(cRacMensal) cRacMensal.destroy();
+            new Chart(ctxRacMensal, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(racaoMensalFatec),
+                    datasets: [
+                        { label: 'Fatec', data: Object.values(racaoMensalFatec), backgroundColor: '#0ea5e9' },
+                        { label: 'Nutritore', data: Object.values(racaoMensalNutri), backgroundColor: '#f97316' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false } }, scales: {x: {stacked: true}, y: {stacked: true}} }
+            });
+            
+            const ctxFases = document.getElementById('chartRacFases').getContext('2d');
+            let cFases = Chart.getChart('chartRacFases'); if(cFases) cFases.destroy();
+            new Chart(ctxFases, {
+                type: 'bar',
+                data: {
+                    labels: ['Pré Inicial (0)', 'Inicial (1)', 'Crescimento (2)', 'Final (3)'],
+                    datasets: [
+                        { label: 'Fatec', data: [prodFases.F0, prodFases.F1, prodFases.F2, prodFases.F3], backgroundColor: '#0ea5e9' },
+                        { label: 'Nutritore', data: [prodFases.N0, prodFases.N1, prodFases.N2, prodFases.N3], backgroundColor: '#f97316' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false } } }
+            });
+
+            const ctxPrecoE = document.getElementById('chartRacPrecoEv').getContext('2d');
+            let cPrecoE = Chart.getChart('chartRacPrecoEv'); if(cPrecoE) cPrecoE.destroy();
+            new Chart(ctxPrecoE, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(precoEvol),
+                    datasets: [
+                        { label: 'Méd. Fatec', data: Object.values(precoEvol).map(x=>calcMedia(x.f)), borderColor: '#0ea5e9', tension: 0.4, borderWidth: 3 },
+                        { label: 'Méd. Nutritore', data: Object.values(precoEvol).map(x=>calcMedia(x.n)), borderColor: '#f97316', tension: 0.4, borderWidth: 3 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false } } }
+            });
+
+            const ctxGasto = document.getElementById('chartRacGasto').getContext('2d');
+            let cGasto = Chart.getChart('chartRacGasto'); if(cGasto) cGasto.destroy();
+            new Chart(ctxGasto, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Macro (Milho, Soja, etc)', 'Micro (Premix, etc)'],
+                    datasets: [{ data: [gastoMacro, gastoMicro], backgroundColor: ['#f59e0b', '#10b981'], borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { display: false }, legend: { position: 'right' } } }
+            });
+
+            let pMacro = [], pMicro = [];
+            Object.keys(window.dictPrecosGlobais).forEach(k => {
+                const v = window.dictPrecosGlobais[k];
+                if (isMacro(k)) pMacro.push({k: k, v: v});
+                else pMicro.push({k: k, v: v});
+            });
+            pMacro.sort((a,b)=>b.v-a.v);
+            pMicro.sort((a,b)=>b.v-a.v);
+
+            function desenharBarraH(id, d, cor) {
+                const ctx = document.getElementById(id).getContext('2d');
+                let c = Chart.getChart(id); if(c) c.destroy();
+                new Chart(ctx, {
+                    type: 'bar', data: { labels: d.map(x=>x.k), datasets: [{ data: d.map(x=>x.v), backgroundColor: cor, borderRadius: 4 }] },
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend:{display:false}, datalabels:{display:isMobile(), color:'#fff', font:{weight:'bold', size:9}, formatter: v=>'R$'+v.toFixed(2)} } }
+                });
+            }
+            desenharBarraH('chartRacPMacro', pMacro, '#f59e0b');
+            desenharBarraH('chartRacPMicro', pMicro.slice(0, 15), '#10b981');
+        }
+
+        // ============================================================================
+        // BLOCO 2: ZOOTÉCNICOS
+        // ============================================================================
+        function atualizarBlocoZootecnico() {
+            if(dadosBrutos.zootecnico.length === 0) return;
 
             let zooMeses = {}, anoAnoGMD = {}, forn = {}, genetica = {}, idade = {}, encarregado = {};
             
@@ -458,7 +694,6 @@
                 return (d1.ano + String(d1.mesNum).padStart(2,'0')).localeCompare(d2.ano + String(d2.mesNum).padStart(2,'0'));
             });
 
-            // LÓGICA DO CAMALEÃO: Avalia APENAS o filtro de Fornecedores!
             const isAllFornecedores = (filtrosAtivos.fornecedor.length === listasFiltros.fornecedor.size) || (filtrosAtivos.fornecedor.length === 0);
             const showFornecedores = !isAllFornecedores;
             const tituloEixo = showFornecedores ? "Fornecedor" : "Nutrição";
@@ -491,14 +726,9 @@
 
                 let gruposDaLinha = [];
                 if (showFornecedores) {
-                    if (!isAllFornecedores) {
-                        gruposDaLinha = fornecedores.filter(f => filtrosAtivos.fornecedor.includes(f));
-                    } else {
-                        gruposDaLinha = fornecedores;
-                    }
-                } else {
-                    gruposDaLinha = [premix];
-                }
+                    if (!isAllFornecedores) { gruposDaLinha = fornecedores.filter(f => filtrosAtivos.fornecedor.includes(f)); } 
+                    else { gruposDaLinha = fornecedores; }
+                } else { gruposDaLinha = [premix]; }
 
                 if(!zooMeses[labelMes]) zooMeses[labelMes] = { 'Global': {p:[], g:[], c:[], m:[], ct:[]} };
                 if(peso>0) zooMeses[labelMes]['Global'].p.push(peso);
@@ -583,16 +813,108 @@
 
             const sortDict = (dict, campo) => Object.keys(dict).map(k => ({k, v: calcMedia(dict[k][campo] || dict[k])})).sort((a,b)=>b.v-a.v);
             
-            const rankFornGmd = sortDict(forn, 'g');
-            desenharBarChart('chartZooFornGmd', rankFornGmd.map(x=>x.k), rankFornGmd.map(x=>x.v), '#0ea5e9');
-            const rankFornIep = sortDict(forn, 'i');
-            desenharBarChart('chartZooFornIep', rankFornIep.map(x=>x.k), rankFornIep.map(x=>x.v), '#8b5cf6');
-            const rankGen = sortDict(genetica, '');
-            desenharBarChart('chartZooGenetica', rankGen.map(x=>x.k), rankGen.map(x=>x.v), '#f59e0b');
+            desenharBarChart('chartZooFornGmd', sortDict(forn, 'g').map(x=>x.k), sortDict(forn, 'g').map(x=>x.v), '#0ea5e9');
+            desenharBarChart('chartZooFornIep', sortDict(forn, 'i').map(x=>x.k), sortDict(forn, 'i').map(x=>x.v), '#8b5cf6');
+            desenharBarChart('chartZooGenetica', sortDict(genetica, '').map(x=>x.k), sortDict(genetica, '').map(x=>x.v), '#f59e0b');
+            
             const rankIdade = sortDict(idade, '').sort((a,b)=>parseInt(a.k)-parseInt(b.k)); 
             desenharBarChart('chartZooIdade', rankIdade.map(x=>x.k+' Sem'), rankIdade.map(x=>x.v), '#ef4444');
-            const rankEnc = sortDict(encarregado, '');
-            desenharBarChart('chartZooEncarregado', rankEnc.map(x=>x.k), rankEnc.map(x=>x.v), '#10b981');
+            desenharBarChart('chartZooEncarregado', sortDict(encarregado, '').map(x=>x.k), sortDict(encarregado, '').map(x=>x.v), '#10b981');
+        }
+
+        // ============================================================================
+        // BLOCO 3: FROTA & LABORATÓRIO E SIMULADOR
+        // ============================================================================
+        function atualizarBlocosSecundarios() {
+            let placaCusto = {};
+            dadosBrutos.diesel.filter(checarData).forEach(row => {
+                const placa = getFuzzyValue(row, ['placa']) || 'N/A';
+                const setor = (getFuzzyValue(row, ['veículo', 'tipo ve', 'categoria']) || "Sem Setor").trim();
+                const valor = parsePtBrNumber(getFuzzyValue(row, ['valor total', 'total']));
+                if(!placaCusto[placa]) placaCusto[placa] = { setor: setor, valor: 0 };
+                placaCusto[placa].valor += valor;
+            });
+            const arrayPlacas = Object.keys(placaCusto).map(placa => ({ placa, ...placaCusto[placa] })).sort((a,b) => b.valor - a.valor);
+            document.getElementById('tabela-veiculos').innerHTML = arrayPlacas.slice(0, 5).map(item => `<tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 font-semibold text-slate-700">${item.placa}</td><td class="px-4 py-3 text-slate-500">${item.setor}</td><td class="px-4 py-3 font-bold text-red-500">${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</td></tr>`).join('');
+            
+            let análisesLab = [];
+            dadosBrutos.lab.filter(checarData).forEach(row => {
+                análisesLab.push({ forn: getFuzzyValue(row, ['fornecedor']) || 'N/A', umi: getFuzzyValue(row, ['umidade']) || '0', imp: getFuzzyValue(row, ['impureza']) || '0' });
+            });
+            document.getElementById('tabela-lab').innerHTML = análisesLab.slice(0, 15).map(item => `<tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 font-semibold text-slate-700">${item.forn}</td><td class="px-4 py-3 text-slate-600">${item.umi} %</td><td class="px-4 py-3 text-slate-600">${item.imp} %</td></tr>`).join('');
+        }
+
+        window.getPriceForIngredient = function(ingName) {
+            let n = String(ingName).toUpperCase().trim();
+            if(!n) return 0;
+            if (window.dictPrecosGlobais[n]) return window.dictPrecosGlobais[n];
+            let match = Object.keys(window.dictPrecosGlobais).find(k => k.includes(n) || n.includes(k));
+            if (match) return window.dictPrecosGlobais[match];
+            return 0;
+        }
+
+        function montarSeletorFormulas() {
+            const select = document.getElementById('select-formula');
+            select.innerHTML = '<option value="">Selecione uma Fórmula...</option>';
+            if(!dadosBrutos.formulas) return;
+            
+            let formValidas = dadosBrutos.formulas.filter(f => getFuzzyValue(f, ['fase']) && getFuzzyValue(f, ['versão', 'versao']));
+            formValidas.forEach(f => {
+                const codg = getFuzzyValue(f, ['codg']) || "Sem_Cod";
+                const fase = getFuzzyValue(f, ['fase']);
+                const versao = getFuzzyValue(f, ['versão', 'versao']);
+                const nome = `${fase} - v${versao} (${codg})`;
+                const opt = document.createElement('option');
+                opt.value = codg + "|" + fase + "|" + versao; 
+                opt.textContent = nome;
+                select.appendChild(opt);
+            });
+        }
+
+        function atualizarGraficoFormula() {
+            const selecao = document.getElementById('select-formula').value;
+            if(!selecao) return;
+            const [codg, fase, versao] = selecao.split("|");
+
+            const formulaRow = dadosBrutos.formulas.find(f => getFuzzyValue(f, ['fase']) == fase && getFuzzyValue(f, ['versão', 'versao']) == versao);
+            if(!formulaRow) return;
+
+            let compFormula = [];
+            let custoTotal1Ton = 0;
+            let colunasNaoIngredientes = ['fase', 'versão', 'versao', 'codg', 'total', 'ultima', 'data', 'coluna'];
+
+            Object.keys(formulaRow).forEach(col => {
+                const colUpper = col.trim().toUpperCase();
+                if(colunasNaoIngredientes.some(nc => colUpper.includes(nc.toUpperCase()))) return;
+
+                const qtdKg = parsePtBrNumber(formulaRow[col]);
+                if(qtdKg > 0) {
+                    let precoUnit = window.getPriceForIngredient(colUpper);
+                    const custo = qtdKg * precoUnit;
+                    custoTotal1Ton += custo;
+                    compFormula.push({ nome: colUpper, qtd: qtdKg, custo: custo, preco: precoUnit });
+                }
+            });
+
+            compFormula.sort((a,b) => b.custo - a.custo);
+
+            document.getElementById('lbl-form-nome').innerText = `Fórmula: ${fase} (v${versao})`;
+            document.getElementById('lbl-form-custo').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(custoTotal1Ton);
+
+            const ctx = document.getElementById('chartForm').getContext('2d');
+            let chartForm = Chart.getChart('chartForm'); if(chartForm) chartForm.destroy();
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: compFormula.slice(0, 15).map(d => d.nome), 
+                    datasets: [{ label: 'Impacto (R$)', data: compFormula.slice(0, 15).map(d => d.custo), backgroundColor: '#6366f1', borderRadius: 4 }]
+                },
+                options: { 
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: {display: false}, datalabels: { display: isMobile(), color: '#fff', font: {weight: 'bold', size: 9}, formatter: v => v.toFixed(0) } } 
+                }
+            });
         }
 
         function getChartInstance(id) { let c = Chart.getChart(id); if(c) c.destroy(); return document.getElementById(id).getContext('2d'); }
@@ -615,7 +937,6 @@
         }
 
         window.onclick = function(e) { 
-            // Fecha os dropdowns se clicar fora deles e se não for um clique num botão nav
             if (!e.target.closest('.relative') && !e.target.closest('.filter-dropdown') && !e.target.closest('.nav-btn')) {
                 document.querySelectorAll('.filter-dropdown').forEach(el => el.classList.remove('active')); 
             }
