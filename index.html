@@ -30,6 +30,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
 
+    <!-- SIDEBAR PRINCIPAL (MENU DE NAVEGAÇÃO) -->
     <aside id="sidebar" class="bg-slate-900 text-white w-64 flex-shrink-0 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 fixed md:relative z-50 h-full shadow-2xl">
         <div class="h-16 flex items-center justify-between px-6 border-b border-slate-700">
             <div class="flex items-center gap-2 font-bold text-xl tracking-tight">
@@ -62,61 +63,79 @@
     </aside>
 
     <main class="flex-1 flex flex-col h-full overflow-hidden relative">
-        <header class="glass-card border-b border-slate-200 z-40 px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-center justify-between w-full sm:w-auto gap-4">
-                <div class="flex items-center gap-4">
-                    <button onclick="toggleSidebar()" class="md:hidden text-slate-500"><i class="ri-menu-2-line text-2xl"></i></button>
-                    <h1 id="page-title" class="text-xl font-bold text-slate-800 hidden lg:block">Painel Central</h1>
-                </div>
+        <header class="glass-card border-b border-slate-200 z-40 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <button onclick="toggleSidebar()" class="md:hidden text-slate-500 hover:text-brand-600 transition-colors"><i class="ri-menu-2-line text-2xl"></i></button>
+                <h1 id="page-title" class="text-lg sm:text-xl font-bold text-slate-800 truncate">Painel Central</h1>
             </div>
             
-            <!-- BARRA DE FILTROS DINÂMICA (Corrigida para Mobile) -->
-            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                <!-- Filtros Globais (Sempre visíveis) -->
-                <div class="relative filter-global flex-1 sm:flex-none">
-                    <button onclick="toggleDropdown('drop-ano')" class="w-full sm:w-auto flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+            <!-- Botão que abre a gaveta de Filtros no Telemóvel -->
+            <button onclick="toggleFilterSidebar()" class="md:hidden flex items-center gap-1.5 text-brand-600 bg-brand-50 px-3 py-1.5 rounded-md border border-brand-200 font-medium shadow-sm active:bg-brand-100">
+                <i class="ri-filter-3-line text-lg"></i>
+                <span class="text-sm">Filtros</span>
+            </button>
+
+            <!-- GAVETA DE FILTROS (Lateral no Mobile / Horizontal no Desktop) -->
+            <div id="filter-sidebar" class="fixed md:relative top-0 right-0 h-full md:h-auto w-72 md:w-auto bg-white md:bg-transparent shadow-2xl md:shadow-none p-5 md:p-0 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-2 transform translate-x-full md:translate-x-0 transition-transform z-50 md:z-auto overflow-y-auto md:overflow-visible">
+                
+                <!-- Cabeçalho da Gaveta de Filtros (Mobile) -->
+                <div class="flex items-center justify-between w-full md:hidden mb-2 border-b border-slate-100 pb-3">
+                    <div class="flex items-center gap-2 font-bold text-slate-700 text-lg">
+                        <i class="ri-filter-3-fill text-brand-500"></i> Filtrar Dados
+                    </div>
+                    <button onclick="toggleFilterSidebar()" class="text-slate-400 hover:text-red-500"><i class="ri-close-line text-2xl"></i></button>
+                </div>
+
+                <!-- Filtros Globais -->
+                <div class="relative w-full md:w-auto filter-global">
+                    <button onclick="toggleDropdown('drop-ano')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-calendar-2-line text-brand-500"></i> Ano</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-ano" class="filter-dropdown absolute left-0 mt-2 w-48 max-w-[90vw] bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-ano"></div></div>
+                    <!-- Efeito Acordeão no Mobile (static) e Flutuante no Desktop (md:absolute) -->
+                    <div id="drop-ano" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-48 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-ano"></div></div>
                 </div>
-                <div class="relative filter-global flex-1 sm:flex-none">
-                    <button onclick="toggleDropdown('drop-mes')" class="w-full sm:w-auto flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative w-full md:w-auto filter-global">
+                    <button onclick="toggleDropdown('drop-mes')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-calendar-event-line text-brand-500"></i> Mês</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-mes" class="filter-dropdown absolute left-0 mt-2 w-48 max-w-[90vw] bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-mes"></div></div>
+                    <div id="drop-mes" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-48 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-mes"></div></div>
                 </div>
 
-                <!-- Filtros Frota (Só aparecem na aba Frota) -->
-                <div class="relative filter-frota hidden flex-1 sm:flex-none">
-                    <button onclick="toggleDropdown('drop-cat-diesel')" class="w-full sm:w-auto flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <!-- Filtros Frota -->
+                <div class="relative w-full md:w-auto filter-frota hidden">
+                    <button onclick="toggleDropdown('drop-cat-diesel')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-gas-station-line text-brand-500"></i> Setor (Diesel)</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-cat-diesel" class="filter-dropdown absolute left-0 mt-2 w-56 max-w-[90vw] bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-cat-diesel"></div></div>
+                    <div id="drop-cat-diesel" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-56 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-cat-diesel"></div></div>
                 </div>
 
-                <!-- Filtros Zootecnicos (Só aparecem na aba Zootécnicos) -->
-                <div class="relative filter-zootec hidden flex-1 sm:flex-none">
-                    <button onclick="toggleDropdown('drop-galpao')" class="w-full sm:w-auto flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <!-- Filtros Zootecnicos -->
+                <div class="relative w-full md:w-auto filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-galpao')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-home-4-line text-brand-500"></i> Galpão</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-galpao" class="filter-dropdown absolute left-0 mt-2 w-64 max-w-[90vw] bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-galpao"></div></div>
+                    <div id="drop-galpao" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-64 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-galpao"></div></div>
                 </div>
-                <div class="relative filter-zootec hidden flex-1 sm:flex-none">
-                    <button onclick="toggleDropdown('drop-genetica')" class="w-full sm:w-auto flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative w-full md:w-auto filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-genetica')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-dna-line text-brand-500"></i> Genética</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-genetica" class="filter-dropdown absolute left-0 mt-2 w-56 max-w-[90vw] bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-genetica"></div></div>
+                    <div id="drop-genetica" class="filter-dropdown static md:absolute left-0 mt-1 md:mt-2 w-full md:w-56 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-genetica"></div></div>
                 </div>
-                <div class="relative filter-zootec hidden flex-1 sm:flex-none">
-                    <button onclick="toggleDropdown('drop-fornecedor')" class="w-full sm:w-auto flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
+                <div class="relative w-full md:w-auto filter-zootec hidden">
+                    <button onclick="toggleDropdown('drop-fornecedor')" class="w-full flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-truck-line text-brand-500"></i> Fornecedor</span> <i class="ri-arrow-down-s-line ml-1"></i>
                     </button>
-                    <div id="drop-fornecedor" class="filter-dropdown absolute left-0 sm:right-0 sm:left-auto mt-2 w-64 max-w-[90vw] bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-2"><div class="max-h-48 overflow-y-auto" id="lista-fornecedor"></div></div>
+                    <div id="drop-fornecedor" class="filter-dropdown static md:absolute md:right-0 mt-1 md:mt-2 w-full md:w-64 bg-slate-50 md:bg-white rounded-md md:rounded-lg shadow-inner md:shadow-xl border-0 md:border md:border-slate-200 z-50 p-2"><div class="max-h-40 md:max-h-48 overflow-y-auto" id="lista-fornecedor"></div></div>
                 </div>
 
-                <button onclick="aplicarTodosFiltros()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2 sm:py-1.5 px-4 rounded-md shadow transition-colors mt-2 sm:mt-0 sm:ml-2">
-                    Aplicar Filtros
-                </button>
+                <!-- Botões de Ação na Gaveta -->
+                <div class="w-full md:w-auto mt-auto md:mt-0 pt-4 md:pt-0 border-t border-slate-100 md:border-0 flex gap-2">
+                    <button onclick="limparFiltrosMobile()" class="md:hidden flex-1 bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-semibold py-2.5 rounded-md transition-colors">Selecionar Tudo</button>
+                    <button onclick="aplicarTodosFiltros()" class="flex-1 md:flex-none bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2.5 md:py-1.5 px-4 rounded-md shadow transition-colors">
+                        Aplicar
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -231,7 +250,11 @@
         </div>
     </main>
 
+    <!-- Overlay do Menu Lateral -->
     <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm"></div>
+    
+    <!-- Overlay da Gaveta de Filtros -->
+    <div id="filter-overlay" onclick="toggleFilterSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm"></div>
 
     <script>
         window.onerror = function(msg, source, lineno) {
@@ -290,7 +313,10 @@
         function isMobile() { return window.innerWidth < 768; }
         function calcMedia(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
 
-        // NAVEGAÇÃO SPA
+        // NAVEGAÇÃO E UX
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
+        function toggleFilterSidebar() { document.getElementById('filter-sidebar').classList.toggle('translate-x-full'); document.getElementById('filter-overlay').classList.toggle('hidden'); }
+        
         function changeView(viewId) {
             document.querySelectorAll('.view-section').forEach(el => { el.classList.add('hidden'); el.classList.remove('block'); });
             document.getElementById('view-' + viewId).classList.remove('hidden'); document.getElementById('view-' + viewId).classList.add('block');
@@ -305,7 +331,7 @@
             document.getElementById('page-title').innerText = titulos[viewId];
             
             for (let id in Chart.instances) { Chart.instances[id].resize(); }
-            if (isMobile()) toggleSidebar();
+            if (isMobile() && !document.getElementById('sidebar').classList.contains('-translate-x-full')) toggleSidebar();
         }
 
         async function baixarCSV(url) {
@@ -358,7 +384,10 @@
             });
         }
 
-        function toggleDropdown(id) { document.querySelectorAll('.filter-dropdown').forEach(el => { if(el.id !== id) el.classList.remove('active'); }); document.getElementById(id).classList.toggle('active'); }
+        function toggleDropdown(id) { 
+            document.querySelectorAll('.filter-dropdown').forEach(el => { if(el.id !== id) el.classList.remove('active'); }); 
+            document.getElementById(id).classList.toggle('active'); 
+        }
         
         function construirMenus() {
             const rc = (v, g) => `<label class="flex items-center gap-2 p-1.5 cursor-pointer"><input type="checkbox" value="${v}" class="chk-${g}" checked><span class="text-sm">${v}</span></label>`;
@@ -369,6 +398,10 @@
             document.getElementById('lista-galpao').innerHTML = Array.from(listasFiltros.galpao).sort().map(v=>rc(v,'galpao')).join('');
             document.getElementById('lista-genetica').innerHTML = Array.from(listasFiltros.genetica).sort().map(v=>rc(v,'genetica')).join('');
             document.getElementById('lista-fornecedor').innerHTML = Array.from(listasFiltros.fornecedor).sort().map(v=>rc(v,'fornecedor')).join('');
+        }
+
+        function limparFiltrosMobile() {
+            document.querySelectorAll('#filter-sidebar input[type="checkbox"]').forEach(cb => cb.checked = true);
         }
 
         function aplicarTodosFiltros() {
@@ -382,6 +415,11 @@
             filtrosAtivos.fornecedor = Array.from(document.querySelectorAll('.chk-fornecedor:checked')).map(el=>el.value);
             
             atualizarDashboard();
+            
+            // Fecha a gaveta no mobile após aplicar
+            if(isMobile() && !document.getElementById('filter-sidebar').classList.contains('translate-x-full')) {
+                toggleFilterSidebar();
+            }
         }
 
         function checarData(row) { const {ano, mes} = extrairAnoMes(getDataValue(row)); return (filtrosAtivos.anos.includes(ano) && filtrosAtivos.meses.includes(mes)); }
@@ -576,8 +614,12 @@
             });
         }
 
-        window.onclick = function(e) { if (!e.target.closest('.relative')) document.querySelectorAll('.filter-dropdown').forEach(el => el.classList.remove('active')); }
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
+        window.onclick = function(e) { 
+            // Fecha os dropdowns se clicar fora deles e se não for um clique num botão nav
+            if (!e.target.closest('.relative') && !e.target.closest('.filter-dropdown') && !e.target.closest('.nav-btn')) {
+                document.querySelectorAll('.filter-dropdown').forEach(el => el.classList.remove('active')); 
+            }
+        }
 
         window.onload = carregarDados;
     </script>
