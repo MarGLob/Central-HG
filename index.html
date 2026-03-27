@@ -40,7 +40,7 @@
         <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
             <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-4">Visão Global</p>
             <a href="#" onclick="changeView('global')" id="btn-nav-global" class="nav-btn flex items-center gap-3 px-3 py-2.5 bg-brand-600 text-white rounded-lg transition-colors">
-                <i class="ri-dashboard-3-line text-lg"></i><span class="font-medium">Painel Central</span>
+                <i class="ri-dashboard-3-line text-lg"></i><span class="font-medium">Resumo Executivo</span>
             </a>
             
             <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Setores</p>
@@ -67,7 +67,7 @@
             </div>
             
             <button onclick="toggleFilterSidebar()" class="md:hidden flex items-center gap-1.5 text-brand-600 bg-brand-50 px-3 py-1.5 rounded-md border border-brand-200 font-medium shadow-sm active:bg-brand-100">
-                <i class="ri-filter-3-line text-lg"></i><span class="text-sm">Filtros</span>
+                <i class="ri-filter-3-line text-lg"></i><span class="text-sm">Filtros Globais</span>
             </button>
 
             <!-- BARRA DE FILTROS DESKTOP -->
@@ -87,12 +87,6 @@
                 </div>
 
                 <!-- Filtros Específicos -->
-                <div class="relative filter-frota hidden">
-                    <button onclick="toggleDropdown('drop-cat-diesel')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
-                        <span class="flex items-center gap-2"><i class="ri-gas-station-line text-brand-500"></i> Setor</span> <i class="ri-arrow-down-s-line ml-1"></i>
-                    </button>
-                    <div id="drop-cat-diesel" class="filter-dropdown absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-[60] p-2"><div class="max-h-48 overflow-y-auto" id="lista-cat-diesel"></div></div>
-                </div>
                 <div class="relative filter-zootec hidden">
                     <button onclick="toggleDropdown('drop-galpao')" class="flex justify-between items-center gap-2 bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 shadow-sm hover:border-brand-500">
                         <span class="flex items-center gap-2"><i class="ri-home-4-line text-brand-500"></i> Galpão</span> <i class="ri-arrow-down-s-line ml-1"></i>
@@ -122,25 +116,70 @@
             <div id="loader" class="flex flex-col items-center justify-center p-8 mt-10 bg-white rounded-2xl shadow border border-slate-200">
                 <i class="ri-loader-4-line animate-spin text-4xl text-brand-500 mb-4"></i>
                 <span class="text-lg font-bold text-slate-700">A Ler Base de Dados...</span>
-                <span class="text-sm text-slate-500 mt-1">A cruzar planilhas de produção, gastos e entradas.</span>
+                <span class="text-sm text-slate-500 mt-1">A cruzar planilhas de produção, gastos e frota.</span>
             </div>
 
             <div id="dashboard-content" style="display: none;">
                 
-                <!-- VIEW 1: PAINEL GLOBAL -->
+                <!-- VIEW 1: PAINEL GLOBAL (RESUMO EXECUTIVO) -->
                 <div id="view-global" class="view-section block">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-blue-500 hover:-translate-y-1 transition-transform">
-                            <p class="text-sm font-semibold text-slate-500">Consumo Total Diesel</p>
-                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-diesel-global">R$ 0,00</h3>
+                    <div class="mb-6 flex items-center gap-3">
+                        <i class="ri-bar-chart-grouped-line text-3xl text-brand-600"></i>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Resumo Executivo</h2>
+                            <p class="text-sm text-slate-500">Visão consolidada da operação, frota e desempenho zootécnico.</p>
                         </div>
-                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-orange-500 hover:-translate-y-1 transition-transform">
-                            <p class="text-sm font-semibold text-slate-500">Ração Produzida</p>
+                    </div>
+
+                    <!-- 4 SUPER KPIs -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-orange-500 relative overflow-hidden hover:-translate-y-1 transition-transform">
+                            <div class="absolute right-0 top-0 opacity-10 text-orange-500 text-7xl -mt-3 -mr-2"><i class="ri-seedling-fill"></i></div>
+                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Ração Produzida</p>
                             <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-racao-global">0 Ton</h3>
                         </div>
-                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-emerald-500 hover:-translate-y-1 transition-transform">
-                            <p class="text-sm font-semibold text-slate-500">Conv. Alimentar (Média Global)</p>
-                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-zootec-global">0.00</h3>
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-blue-500 relative overflow-hidden hover:-translate-y-1 transition-transform">
+                            <div class="absolute right-0 top-0 opacity-10 text-blue-500 text-7xl -mt-3 -mr-2"><i class="ri-gas-station-fill"></i></div>
+                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Custo Combustível</p>
+                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-diesel-global">R$ 0</h3>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-emerald-500 relative overflow-hidden hover:-translate-y-1 transition-transform">
+                            <div class="absolute right-0 top-0 opacity-10 text-emerald-500 text-7xl -mt-3 -mr-2"><i class="ri-funds-line"></i></div>
+                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide">GMD Médio Geral</p>
+                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-gmd-global">0.00</h3>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-purple-500 relative overflow-hidden hover:-translate-y-1 transition-transform">
+                            <div class="absolute right-0 top-0 opacity-10 text-purple-500 text-7xl -mt-3 -mr-2"><i class="ri-scales-3-fill"></i></div>
+                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Conv. Alimentar</p>
+                            <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-ca-global">0.00</h3>
+                        </div>
+                    </div>
+
+                    <!-- Big Chart: Ração x Diesel -->
+                    <div class="glass-card p-6 rounded-2xl mb-6 shadow-sm border border-slate-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-700">Panorama Operacional Mensal</h2>
+                                <p class="text-xs text-slate-500">Comparativo entre Ração Produzida (Eixo Esquerdo) vs Gasto em Diesel (Eixo Direito)</p>
+                            </div>
+                        </div>
+                        <div class="relative w-full h-72"><canvas id="chartGlobalEvolucao"></canvas></div>
+                    </div>
+
+                    <!-- 2 Bottom Charts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="glass-card p-6 rounded-2xl border border-slate-200">
+                            <h2 class="text-md font-bold text-slate-700 mb-1">Evolução Zootécnica (GMD x CA)</h2>
+                            <p class="text-xs text-slate-500 mb-4">Acompanhamento do Ganho de Peso Médio e da Conversão.</p>
+                            <div class="relative w-full h-64"><canvas id="chartGlobalZootec"></canvas></div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl border border-slate-200">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="ri-trophy-fill text-yellow-500 text-xl"></i>
+                                <h2 class="text-md font-bold text-slate-700">Top 5 Galpões de Ouro</h2>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-4">Ranking dos galpões com o melhor Índice de Eficiência Produtiva (IEP).</p>
+                            <div class="relative w-full h-64"><canvas id="chartGlobalIep"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -198,12 +237,11 @@
                         <div class="relative w-full h-64"><canvas id="chartRacPrecoEv"></canvas></div>
                     </div>
 
-                    <!-- SIMULADOR DE FÓRMULAS -->
                     <div class="glass-card p-5 rounded-2xl mb-6">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                             <div>
                                 <h2 class="text-md font-bold text-slate-700">Simulador de Custo por Fórmula</h2>
-                                <p class="text-sm text-slate-500">Calcula a receita da fórmula usando os preços das entradas de Matéria Prima.</p>
+                                <p class="text-sm text-slate-500">Calcula a receita da fórmula usando os preços das entradas.</p>
                             </div>
                             <div class="w-full sm:w-64">
                                 <select id="select-formula" onchange="atualizarGraficoFormula()" class="w-full bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-2.5">
@@ -226,33 +264,112 @@
                     </div>
                 </div>
 
-                <!-- VIEW 4: FROTA E LABORATÓRIO -->
+                <!-- VIEW 4: FROTA E DIESEL -->
                 <div id="view-frota" class="view-section hidden">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Custo Diesel (R$)</h2><div class="relative w-full h-64"><canvas id="chartDiesel"></canvas></div></div>
-                        <div class="glass-card p-5 rounded-2xl"><h2 class="text-md font-bold text-slate-700 mb-4">Diesel por Setor</h2><div class="relative w-full h-64"><canvas id="chartSetorDiesel"></canvas></div></div>
+                    
+                    <!-- Lançamentos / Manutenção -->
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                            <div>
+                                <h2 class="text-md font-bold text-slate-700">Custos de Manutenção (Lançamentos)</h2>
+                                <p class="text-sm text-slate-500">Visão Geral. Use os filtros para detalhar os gastos por Placa individualmente.</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                                <select id="sel-frota-cat" onchange="atualizarBlocoFrota()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]"><option value="">Todas Categorias</option></select>
+                                <select id="sel-frota-serv" onchange="atualizarBlocoFrota()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]"><option value="">Todos Serviços</option></select>
+                            </div>
+                        </div>
+                        <div class="overflow-y-auto pr-2" id="scroll-frota-lanc">
+                            <div class="relative w-full transition-all" id="container-frota-lanc">
+                                <canvas id="chartFrotaLanc"></canvas>
+                            </div>
+                        </div>
                     </div>
-                    <div class="glass-card p-5 rounded-2xl overflow-hidden">
-                        <h2 class="text-md font-bold text-slate-700 mb-4">Top 5 Placas - Maior Custo de Diesel</h2>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm whitespace-nowrap">
-                                <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
-                                    <tr><th class="px-4 py-3">Placa</th><th class="px-4 py-3">Setor (Tipo)</th><th class="px-4 py-3">Custo Total (R$)</th></tr>
-                                </thead>
-                                <tbody id="tabela-veiculos" class="divide-y divide-slate-100"></tbody>
-                            </table>
+
+                    <!-- Troca de Óleo -->
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                            <div>
+                                <h2 class="text-md font-bold text-slate-700">Troca de Óleo e Filtros</h2>
+                                <p class="text-sm text-slate-500">Visão Geral. Use os filtros para detalhar os gastos por Placa individualmente.</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                                <select id="sel-oleo-cat" onchange="atualizarBlocoFrota()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]"><option value="">Todas Categorias</option></select>
+                                <select id="sel-oleo-tipo" onchange="atualizarBlocoFrota()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]"><option value="">Todos Tipos Manutenção</option></select>
+                            </div>
+                        </div>
+                        <div class="overflow-y-auto pr-2" id="scroll-frota-oleo">
+                            <div class="relative w-full transition-all" id="container-frota-oleo">
+                                <canvas id="chartFrotaOleo"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diesel -->
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                            <div>
+                                <h2 class="text-md font-bold text-slate-700">Consumo de Diesel</h2>
+                                <p class="text-sm text-slate-500">Visão Geral. Use os filtros para detalhar os gastos por Placa individualmente.</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                                <select id="sel-diesel-cat" onchange="atualizarBlocoFrota()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]"><option value="">Todos Veículos</option></select>
+                                <select id="sel-diesel-tipo" onchange="atualizarBlocoFrota()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]"><option value="">Todos Combustíveis</option></select>
+                            </div>
+                        </div>
+                        <div class="overflow-y-auto pr-2" id="scroll-frota-diesel">
+                            <div class="relative w-full transition-all" id="container-frota-diesel">
+                                <canvas id="chartFrotaDiesel"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- VIEW 5: LABORATÓRIO -->
                 <div id="view-lab" class="view-section hidden">
-                    <div class="glass-card p-5 rounded-2xl overflow-hidden mb-6">
-                        <h2 class="text-md font-bold text-slate-700 mb-4">Qualidade do Milho Recebido</h2>
-                        <table class="w-full text-left text-sm whitespace-nowrap">
-                            <thead class="bg-slate-50 text-slate-500"><tr><th class="px-4 py-3">Fornecedor</th><th class="px-4 py-3">Humidade %</th><th class="px-4 py-3">Impureza %</th></tr></thead>
-                            <tbody id="tabela-lab" class="divide-y divide-slate-100"></tbody>
-                        </table>
+                    
+                    <!-- Granulometria -->
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                            <div>
+                                <h2 class="text-md font-bold text-slate-700">Granulometria (DGM vs DPG)</h2>
+                                <p class="text-sm text-slate-500">Evolução média da granulometria separada por tipo de matéria prima.</p>
+                            </div>
+                            <select id="sel-lab-mp" onchange="atualizarBlocoLab()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]">
+                                <option value="F0">F0</option>
+                                <option value="F1">F1</option>
+                                <option value="F2">F2</option>
+                                <option value="F3">F3</option>
+                                <option value="FUBÁ F0 - 1">FUBÁ F0 - 1</option>
+                                <option value="FUBÁ F2 - 3">FUBÁ F2 - 3</option>
+                                <option value="FARELO">FARELO</option>
+                                <option value="SORGO">SORGO</option>
+                            </select>
+                        </div>
+                        <div class="relative w-full h-72"><canvas id="chartLabGranulo"></canvas></div>
                     </div>
+
+                    <!-- Milho Qualidade & Densidade -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="glass-card p-5 rounded-2xl overflow-hidden flex flex-col">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                                <h2 class="text-md font-bold text-slate-700">Qualidade do Milho Recebido</h2>
+                                <select id="sel-lab-forn" onchange="atualizarBlocoLab()" class="bg-slate-50 border border-slate-300 text-sm font-medium rounded-lg p-2 min-w-[160px]">
+                                    <option value="">Todos Fornecedores</option>
+                                </select>
+                            </div>
+                            <div class="relative w-full h-64 flex-1">
+                                <canvas id="chartLabQualidade"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl">
+                            <h2 class="text-md font-bold text-slate-700 mb-4">Melhores Fornecedores (Densidade Média g/l)</h2>
+                            <p class="text-xs text-slate-400 mb-4">Ranking baseado na maior densidade média registrada.</p>
+                            <div class="relative w-full h-64"><canvas id="chartLabDensidade"></canvas></div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -284,7 +401,6 @@
                 <div class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-2" id="lista-mes-mob"></div>
             </div>
             
-            <div class="filter-frota hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Setor Diesel</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-cat-diesel-mob"></div></div>
             <div class="filter-zootec hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Galpão</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-galpao-mob"></div></div>
             <div class="filter-zootec hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Genética</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-genetica-mob"></div></div>
             <div class="filter-zootec hidden"><hr class="border-slate-100 my-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fornecedor</p><div class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2" id="lista-fornecedor-mob"></div></div>
@@ -309,21 +425,27 @@
         // LINKS GARANTIDOS
         const LINKS_GERAIS = {
             zootecnicos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1289493781&single=true&output=csv",
-            diesel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1770890760&single=true&output=csv",
             lab_milho: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=175803297&single=true&output=csv",
+            lab_granulo: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=2110068062&single=true&output=csv",
+            racao_prod: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1139904687&single=true&output=csv",
             racao_multiplos: [
                 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1450362820&single=true&output=csv",
                 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=812917303&single=true&output=csv",
                 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1293892436&single=true&output=csv",
                 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1996712500&single=true&output=csv",
                 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=490868747&single=true&output=csv"
+            ],
+            frota_multiplos: [
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=984226313&single=true&output=csv",
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=50136668&single=true&output=csv",
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6BzYLGK98IQJTlWSGE09ZXcYL7bTFUxcQ72-Gh2U_5Ihj3aSn1CNa1-9uCw5fnVMyfycDoJT0FVsQ/pub?gid=1770890760&single=true&output=csv"
             ]
         };
 
         // Estado Global
-        let dadosBrutos = { diesel: [], prod: [], zootecnico: [], lab: [], hist_preco: [], formulas: [], precos: [], gasto: [], entrada: [] };
-        let listasFiltros = { anos: new Set(), meses: new Set(), catDiesel: new Set(), galpao: new Set(), genetica: new Set(), fornecedor: new Set() };
-        let filtrosAtivos = { anos: [], meses: [], catDiesel: [], galpao: [], genetica: [], fornecedor: [] };
+        let dadosBrutos = { diesel: [], prod: [], zootecnico: [], lab: [], granulometria: [], hist_preco: [], formulas: [], precos: [], gasto: [], entrada: [], lancamento: [], troca_oleo: [] };
+        let listasFiltros = { anos: new Set(), meses: new Set(), galpao: new Set(), genetica: new Set(), fornecedor: new Set() };
+        let filtrosAtivos = { anos: [], meses: [], galpao: [], genetica: [], fornecedor: [] };
         window.dictPrecosGlobais = {}; 
 
         const MESES_ORDEM = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
@@ -331,13 +453,11 @@
         const stringToColor = (str) => { let hash = 0; for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash); const c = (hash & 0x00FFFFFF).toString(16).toUpperCase(); return '#' + '00000'.substring(0, 6 - c.length) + c; };
         const getCorDinamica = (nome) => CORES_NUTRI[nome] || stringToColor(nome);
 
-        // Classificador Inteligente Atualizado: Apenas os macros solicitados + Óleo
         function isMacro(nome) {
             const n = nome.toLowerCase();
             return n.includes('milho') || n.includes('farelo') || n.includes('sorgo') || n.includes('farinha') || n.includes('calcário') || n.includes('calcario') || n === 'sal' || n.includes('óleo') || n.includes('oleo');
         }
 
-        // Extratores Robustos
         function getVal(row, key) {
             if(row[key] !== undefined) return parsePtBrNumber(row[key]);
             if(row[key.toLowerCase()] !== undefined) return parsePtBrNumber(row[key.toLowerCase()]);
@@ -361,7 +481,6 @@
         function isMobile() { return window.innerWidth < 768; }
         function calcMedia(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
 
-        // NAVEGAÇÃO E GAVETAS
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
         function toggleFilterSidebar() { document.getElementById('filter-sidebar-mobile').classList.toggle('translate-x-full'); document.getElementById('filter-overlay').classList.toggle('hidden'); }
         
@@ -371,11 +490,10 @@
             document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('bg-brand-600', 'text-white'); el.classList.add('text-slate-300'); });
             document.getElementById('btn-nav-' + viewId).classList.remove('text-slate-300'); document.getElementById('btn-nav-' + viewId).classList.add('bg-brand-600', 'text-white');
             
-            document.querySelectorAll('.filter-frota, .filter-zootec').forEach(el => el.classList.add('hidden'));
-            if (viewId === 'frota') document.querySelectorAll('.filter-frota').forEach(el => el.classList.remove('hidden'));
+            document.querySelectorAll('.filter-zootec').forEach(el => el.classList.add('hidden'));
             if (viewId === 'zootec') document.querySelectorAll('.filter-zootec').forEach(el => el.classList.remove('hidden'));
 
-            const titulos = { 'global': 'Visão Global', 'zootec': 'Resultados Zootécnicos', 'racao': 'Fábrica de Ração', 'frota': 'Frota & Consumo de Diesel', 'lab': 'Laboratório & Qualidade' };
+            const titulos = { 'global': 'Visão Global - Painel Executivo', 'zootec': 'Resultados Zootécnicos', 'racao': 'Fábrica de Ração', 'frota': 'Frota & Consumo de Diesel', 'lab': 'Laboratório & Qualidade' };
             document.getElementById('page-title').innerText = titulos[viewId];
             
             for (let id in Chart.instances) { Chart.instances[id].resize(); }
@@ -391,43 +509,45 @@
 
         async function carregarDados() {
             let s = false;
-            try { const d = await baixarCSV(LINKS_GERAIS.diesel); if(d.length>0) { processarFiltros('diesel', d); s = true; } } catch (e) {}
             try { const d = await baixarCSV(LINKS_GERAIS.zootecnicos); if(d.length>0) { processarFiltros('zootecnico', d); s = true; } } catch (e) {}
             try { const d = await baixarCSV(LINKS_GERAIS.lab_milho); if(d.length>0) { processarFiltros('lab', d); s = true; } } catch (e) {}
+            try { const d = await baixarCSV(LINKS_GERAIS.racao_prod); if(d.length>0) { processarFiltros('prod', d); s = true; } } catch (e) {}
+            try { const d = await baixarCSV(LINKS_GERAIS.lab_granulo); if(d.length>0) { processarFiltros('granulometria', d); s = true; } } catch (e) {}
             
-            // O Leitor Cego (Fuzzy Matcher) Aprimorado
             for (let url of LINKS_GERAIS.racao_multiplos) {
                 try { 
                     const temp = await baixarCSV(url); 
                     if (temp.length > 0) { 
                         const colsStr = Object.keys(temp[0]).join(' ').toLowerCase();
-                        
-                        // 1. ABA PRODUTIVIDADE (Detecta Ton Produzidas de forma exata)
-                        if (colsStr.includes('ton. produzidas') || colsStr.includes('produzidas') || colsStr.includes('produção/hora') || (colsStr.includes('f0') && colsStr.includes('n0') && !colsStr.includes('milho') && !colsStr.includes('dgm'))) { 
-                            processarFiltros('prod', temp); s = true; 
-                        } 
-                        // 2. ABA HISTÓRICO DE PREÇOS
-                        else if (colsStr.includes('fat') && colsStr.includes('nut') && !colsStr.includes('f0')) { 
+                        if (colsStr.includes('fat') && colsStr.includes('nut') && !colsStr.includes('f0')) { 
                             processarFiltros('hist_preco', temp); s = true; 
-                        } 
-                        // 3. ABA FÓRMULAS BATCH
-                        else if (colsStr.includes('codg') && colsStr.includes('fase')) { 
+                        } else if (colsStr.includes('codg') && colsStr.includes('fase')) { 
                             dadosBrutos.formulas = dadosBrutos.formulas.concat(temp); s = true; 
-                        } 
-                        // 4. ABA GASTO BATIDA
-                        else if (colsStr.includes('milho') && colsStr.includes('farelo de soja') && colsStr.includes('f0')) { 
+                        } else if (colsStr.includes('milho') && colsStr.includes('farelo de soja') && colsStr.includes('f0')) { 
                             processarFiltros('gasto', temp); s = true; 
-                        }
-                        // 5. ABA DE PREÇOS ESPECÍFICA (Batida Batch e Preço)
-                        else if (colsStr.includes('batida batch') || colsStr.includes('unnamed: 10')) {
+                        } else if (colsStr.includes('batida batch') || colsStr.includes('unnamed: 10')) {
                             dadosBrutos.precos = dadosBrutos.precos.concat(temp); s = true;
-                        }
-                        // 6. ABA ENTRADA MP
-                        else if (colsStr.includes('produto') && (colsStr.includes('unitário') || colsStr.includes('unitario') || colsStr.includes('granja'))) { 
+                        } else if (colsStr.includes('produto') && (colsStr.includes('unitário') || colsStr.includes('unitario') || colsStr.includes('granja'))) { 
                             processarFiltros('entrada', temp); s = true; 
                         } 
                     } 
                 } catch(e) { console.warn("Aviso Ração:", e); }
+            }
+
+            for (let url of LINKS_GERAIS.frota_multiplos) {
+                try { 
+                    const temp = await baixarCSV(url); 
+                    if (temp.length > 0) { 
+                        const colsStr = Object.keys(temp[0]).join(' ').toLowerCase();
+                        if (colsStr.includes('oficina')) { 
+                            processarFiltros('lancamento', temp); s = true; 
+                        } else if (colsStr.includes('manuten')) { 
+                            processarFiltros('troca_oleo', temp); s = true; 
+                        } else if (colsStr.includes('saída') || colsStr.includes('saida') || (colsStr.includes('veículo') && colsStr.includes('entrada'))) { 
+                            processarFiltros('diesel', temp); s = true; 
+                        } 
+                    } 
+                } catch(e) { console.warn("Aviso Frota:", e); }
             }
 
             if (s) {
@@ -438,7 +558,6 @@
             }
         }
 
-        // Lógica de concatenação: Se houver várias planilhas da mesma categoria (Ex: produtividade dividida por anos), ele une todas.
         function processarFiltros(tipo, arr) {
             if (!dadosBrutos[tipo] || dadosBrutos[tipo].length === 0) {
                 dadosBrutos[tipo] = arr;
@@ -451,7 +570,6 @@
                 const {ano, mes} = extrairAnoMes(dt);
                 if(ano) listasFiltros.anos.add(ano); if(mes) listasFiltros.meses.add(mes);
 
-                if(tipo === 'diesel') { const cat = (getFuzzyValue(row, ['veículo', 'tipo ve', 'categoria']) || "").trim(); if(cat.length > 1) listasFiltros.catDiesel.add(cat); }
                 if(tipo === 'zootecnico') {
                     const galpao = (getFuzzyValue(row, ['galpão', 'galpao']) || "").trim(); if(galpao.length > 1) listasFiltros.galpao.add(galpao);
                     const gen = (getFuzzyValue(row, ['linhagem', 'linha']) || "").trim(); if(gen.length > 1) listasFiltros.genetica.add(gen);
@@ -468,14 +586,12 @@
             
             document.getElementById('lista-ano').innerHTML = Array.from(listasFiltros.anos).sort((a,b)=>b-a).map(v=>rc(v,'anos')).join('');
             document.getElementById('lista-mes').innerHTML = Array.from(listasFiltros.meses).sort((a,b)=>MESES_ORDEM.indexOf(a)-MESES_ORDEM.indexOf(b)).map(v=>rc(v,'meses')).join('');
-            document.getElementById('lista-cat-diesel').innerHTML = Array.from(listasFiltros.catDiesel).sort().map(v=>rc(v,'catDiesel')).join('');
             document.getElementById('lista-galpao').innerHTML = Array.from(listasFiltros.galpao).sort().map(v=>rc(v,'galpao')).join('');
             document.getElementById('lista-genetica').innerHTML = Array.from(listasFiltros.genetica).sort().map(v=>rc(v,'genetica')).join('');
             document.getElementById('lista-fornecedor').innerHTML = Array.from(listasFiltros.fornecedor).sort().map(v=>rc(v,'fornecedor')).join('');
 
             document.getElementById('lista-ano-mob').innerHTML = Array.from(listasFiltros.anos).sort((a,b)=>b-a).map(v=>rc(v,'anos')).join('');
             document.getElementById('lista-mes-mob').innerHTML = Array.from(listasFiltros.meses).sort((a,b)=>MESES_ORDEM.indexOf(a)-MESES_ORDEM.indexOf(b)).map(v=>rc(v,'meses')).join('');
-            document.getElementById('lista-cat-diesel-mob').innerHTML = Array.from(listasFiltros.catDiesel).sort().map(v=>rc(v,'catDiesel')).join('');
             document.getElementById('lista-galpao-mob').innerHTML = Array.from(listasFiltros.galpao).sort().map(v=>rc(v,'galpao')).join('');
             document.getElementById('lista-genetica-mob').innerHTML = Array.from(listasFiltros.genetica).sort().map(v=>rc(v,'genetica')).join('');
             document.getElementById('lista-fornecedor-mob').innerHTML = Array.from(listasFiltros.fornecedor).sort().map(v=>rc(v,'fornecedor')).join('');
@@ -489,7 +605,6 @@
             
             filtrosAtivos.anos = Array.from(document.querySelectorAll(`${scope} .chk-anos:checked`)).map(el=>el.value);
             filtrosAtivos.meses = Array.from(document.querySelectorAll(`${scope} .chk-meses:checked`)).map(el=>el.value);
-            filtrosAtivos.catDiesel = Array.from(document.querySelectorAll(`${scope} .chk-catDiesel:checked`)).map(el=>el.value);
             filtrosAtivos.galpao = Array.from(document.querySelectorAll(`${scope} .chk-galpao:checked`)).map(el=>el.value);
             filtrosAtivos.genetica = Array.from(document.querySelectorAll(`${scope} .chk-genetica:checked`)).map(el=>el.value);
             filtrosAtivos.fornecedor = Array.from(document.querySelectorAll(`${scope} .chk-fornecedor:checked`)).map(el=>el.value);
@@ -512,32 +627,147 @@
             return true;
         }
 
-        // ============================================================================
-        // MOTOR PRINCIPAL DO DASHBOARD
-        // ============================================================================
         function atualizarDashboard() {
             atualizarPainelGlobal();
             atualizarBlocoZootecnico();
             atualizarBlocoFabricaRacao();
-            atualizarBlocosSecundarios();
+            atualizarBlocoFrota();
+            atualizarBlocoLab();
         }
 
+        // ============================================================================
+        // VISÃO GLOBAL (RESUMO EXECUTIVO)
+        // ============================================================================
         function atualizarPainelGlobal() {
-            let totalDiesel = 0; dadosBrutos.diesel.filter(checarData).forEach(r => totalDiesel += parsePtBrNumber(getFuzzyValue(r, ['valor', 'total'])));
-            
-            // Busca a prova de falhas para o nome "Ton. Produzidas"
+            let totalDiesel = 0; 
+            let dieselMeses = {};
+            dadosBrutos.diesel.filter(checarData).forEach(r => {
+                let v = parsePtBrNumber(getFuzzyValue(r, ['valor total', 'total', 'valor']));
+                totalDiesel += v;
+                
+                const dt = extrairAnoMes(getDataValue(r));
+                if(dt.mes && dt.ano) {
+                    const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                    dieselMeses[mLabel] = (dieselMeses[mLabel] || 0) + v;
+                }
+            });
+
             let totalRacao = 0; 
+            let racaoMeses = {};
             dadosBrutos.prod.filter(checarData).forEach(r => {
                 let t = parsePtBrNumber(r['Ton. Produzidas'] || r['Ton. produzidas'] || r['Ton']);
                 if (t === 0) t = parsePtBrNumber(getFuzzyValue(r, ['ton.', 'produzidas', 'produção']));
                 totalRacao += t;
+
+                const dt = extrairAnoMes(getDataValue(r));
+                if(dt.mes && dt.ano) {
+                    const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                    racaoMeses[mLabel] = (racaoMeses[mLabel] || 0) + t;
+                }
+            });
+
+            let caG = []; let gmdG = []; 
+            let zooMeses = {};
+            let galpaoIep = {};
+            
+            dadosBrutos.zootecnico.filter(checarZootec).forEach(r => { 
+                let c = parsePtBrNumber(getFuzzyValue(r,['conv.alimen', 'conversão', 'conv.'])); 
+                let g = parsePtBrNumber(getFuzzyValue(r, ['g.m.d', 'gmd']));
+                let iep = parsePtBrNumber(getFuzzyValue(r, ['i.e.p', 'iep']));
+                let galp = (getFuzzyValue(r, ['galpão', 'galpao']) || "Outros").trim();
+
+                if(c>0) caG.push(c); 
+                if(g>0) gmdG.push(g);
+
+                if(iep > 0) {
+                    if(!galpaoIep[galp]) galpaoIep[galp] = [];
+                    galpaoIep[galp].push(iep);
+                }
+
+                const dt = extrairAnoMes(getDataValue(r));
+                if(dt.mes && dt.ano) {
+                    const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                    if(!zooMeses[mLabel]) zooMeses[mLabel] = { c:[], g:[] };
+                    if(c>0) zooMeses[mLabel].c.push(c);
+                    if(g>0) zooMeses[mLabel].g.push(g);
+                }
             });
             
-            let caG = []; dadosBrutos.zootecnico.filter(checarZootec).forEach(r => { let c=parsePtBrNumber(getFuzzyValue(r,['conv.alimen', 'conversão', 'conv.'])); if(c>0) caG.push(c); });
-            
-            document.getElementById('kpi-diesel-global').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(totalDiesel);
-            document.getElementById('kpi-racao-global').innerText = `${totalRacao.toFixed(1)} Ton`;
-            document.getElementById('kpi-zootec-global').innerText = calcMedia(caG).toFixed(3);
+            document.getElementById('kpi-diesel-global').innerText = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL', maximumFractionDigits: 0}).format(totalDiesel);
+            document.getElementById('kpi-racao-global').innerText = `${new Intl.NumberFormat('pt-BR',{maximumFractionDigits: 1}).format(totalRacao)} Ton`;
+            document.getElementById('kpi-gmd-global').innerText = calcMedia(gmdG).toFixed(2) + ' g';
+            document.getElementById('kpi-ca-global').innerText = calcMedia(caG).toFixed(3);
+
+            // Gráfico 1: Evolução (Ração Ton x Custo Diesel)
+            const allMesesSet = new Set([...Object.keys(dieselMeses), ...Object.keys(racaoMeses), ...Object.keys(zooMeses)]);
+            const labelsMeses = Array.from(allMesesSet).sort((a,b) => {
+                let [mA, yA] = a.split('/'); let [mB, yB] = b.split('/');
+                let numA = MESES_ORDEM.indexOf(mA); let numB = MESES_ORDEM.indexOf(mB);
+                return (yA + String(numA).padStart(2,'0')).localeCompare(yB + String(numB).padStart(2,'0'));
+            });
+
+            const dataEvolRacao = labelsMeses.map(m => racaoMeses[m] || 0);
+            const dataEvolDiesel = labelsMeses.map(m => dieselMeses[m] || 0);
+
+            let chartEv = Chart.getChart('chartGlobalEvolucao'); if(chartEv) chartEv.destroy();
+            new Chart(document.getElementById('chartGlobalEvolucao').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: labelsMeses,
+                    datasets: [
+                        { label: 'Ração Produzida (Ton)', data: dataEvolRacao, backgroundColor: '#f97316', borderRadius: 4, yAxisID: 'y', order: 2 },
+                        { label: 'Custo Diesel (R$)', data: dataEvolDiesel, borderColor: '#0ea5e9', backgroundColor: 'transparent', type: 'line', tension: 0.4, borderWidth: 3, yAxisID: 'y1', order: 1 }
+                    ]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: { position: 'top', labels: {boxWidth: 12, font: {size: 11}} }, datalabels: { display: false } },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'Toneladas Ração'}, grid: { color: '#f1f5f9' } },
+                        y1: { type: 'linear', display: true, position: 'right', grid: {drawOnChartArea: false}, title: {display: true, text: 'Custo Diesel (R$)'} }
+                    }
+                }
+            });
+
+            // Gráfico 2: Zootécnico (GMD x CA)
+            const dataEvGmd = labelsMeses.map(m => zooMeses[m] ? calcMedia(zooMeses[m].g) : null);
+            const dataEvCa = labelsMeses.map(m => zooMeses[m] ? calcMedia(zooMeses[m].c) : null);
+
+            let chartZoo = Chart.getChart('chartGlobalZootec'); if(chartZoo) chartZoo.destroy();
+            new Chart(document.getElementById('chartGlobalZootec').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labelsMeses,
+                    datasets: [
+                        { label: 'GMD Médio', data: dataEvGmd, borderColor: '#10b981', backgroundColor: 'transparent', tension: 0.4, borderWidth: 3, yAxisID: 'y' },
+                        { label: 'Conv. Alimentar', data: dataEvCa, borderColor: '#8b5cf6', backgroundColor: 'transparent', tension: 0.4, borderWidth: 3, yAxisID: 'y1' }
+                    ]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: { position: 'top', labels: {boxWidth: 12, font: {size: 11}} }, datalabels: { display: false } },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'GMD'}, grid: { color: '#f1f5f9' } },
+                        y1: { type: 'linear', display: true, position: 'right', grid: {drawOnChartArea: false}, title: {display: true, text: 'CA'} }
+                    }
+                }
+            });
+
+            // Gráfico 3: Ranking de Galpões
+            let mediaIep = Object.keys(galpaoIep).map(k => ({ k: k, v: calcMedia(galpaoIep[k]) })).sort((a,b) => b.v - a.v).slice(0, 5);
+            let chartIep = Chart.getChart('chartGlobalIep'); if(chartIep) chartIep.destroy();
+            new Chart(document.getElementById('chartGlobalIep').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: mediaIep.map(d => d.k),
+                    datasets: [{ label: 'IEP', data: mediaIep.map(d => d.v), backgroundColor: '#fcd34d', borderRadius: 4 }]
+                },
+                options: { 
+                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: { display: false }, datalabels: { display: !isMobile(), color: '#78350f', font: {weight: 'bold', size: 11}, formatter: v => v.toFixed(0) } } 
+                }
+            });
         }
 
         // ============================================================================
@@ -546,7 +776,6 @@
         function atualizarBlocoFabricaRacao() {
             if(dadosBrutos.prod.length === 0 && dadosBrutos.gasto.length === 0) return;
 
-            // 1. PROCESSAR PREÇOS (Prioriza Tabela Específica de Preços, depois Entradas)
             window.dictPrecosGlobais = {};
             if (dadosBrutos.precos && dadosBrutos.precos.length > 0) {
                  dadosBrutos.precos.forEach(r => {
@@ -569,7 +798,6 @@
                 if (!window.dictPrecosGlobais[k]) window.dictPrecosGlobais[k] = tempPrecos[k].sum / tempPrecos[k].count;
             });
 
-            // 2. PROCESSAR PRODUÇÃO (TON MENSAL E FASES FATEC VS NUTRITORE)
             let racaoMensal = {}; 
             let prodFases = { F0:0, F1:0, F2:0, F3:0, N0:0, N1:0, N2:0, N3:0 };
 
@@ -580,14 +808,11 @@
                 const dt = extrairAnoMes(getDataValue(r));
                 if(dt.mes && dt.ano) {
                     const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
-                    
-                    // Busca exata nas chaves para evitar erros do fuzzy search
                     let tonProduzida = parsePtBrNumber(r['Ton. Produzidas'] || r['Ton. produzidas'] || r['Ton']);
                     if (tonProduzida === 0) tonProduzida = parsePtBrNumber(getFuzzyValue(r, ['ton.', 'produzidas', 'produção']));
                     
                     racaoMensal[mLabel] = (racaoMensal[mLabel] || 0) + tonProduzida;
                     
-                    // Busca Exata de Fases
                     prodFases.F0 += parsePtBrNumber(r['F0'] || r['f0']) || parsePtBrNumber(getFuzzyValue(r, ['f0'])) || 0; 
                     prodFases.F1 += parsePtBrNumber(r['F1'] || r['f1']) || parsePtBrNumber(getFuzzyValue(r, ['f1'])) || 0; 
                     prodFases.F2 += parsePtBrNumber(r['F2'] || r['f2']) || parsePtBrNumber(getFuzzyValue(r, ['f2'])) || 0; 
@@ -599,7 +824,6 @@
                 }
             });
 
-            // 3. EVOLUÇÃO DE PREÇO MÉDIO
             let precoEvol = {};
             dadosBrutos.hist_preco.filter(checarData).sort((a,b) => {
                 const d1 = extrairAnoMes(getDataValue(a)), d2 = extrairAnoMes(getDataValue(b));
@@ -614,7 +838,6 @@
                 }
             });
 
-            // 4. GASTO MACRO VS MICRO EM TONELADAS
             let macroTon = {}; let microTon = {};
             let colsNaoIngrediente = ['data', 'ultima', 'hora', 'batida', 'fase', 'versao', 'produção', 'producao', 'ton', 'sist'];
             
@@ -634,7 +857,6 @@
                 });
             });
 
-            // 5. DESENHAR GRÁFICOS DA RAÇÃO
             const ctxRacMensal = document.getElementById('chartRacMensal').getContext('2d');
             let cRacMensal = Chart.getChart('chartRacMensal'); if(cRacMensal) cRacMensal.destroy();
             new Chart(ctxRacMensal, {
@@ -841,27 +1063,315 @@
         }
 
         // ============================================================================
-        // BLOCO 3: FROTA & LABORATÓRIO E SIMULADOR
+        // BLOCO 3: FROTA & DIESEL 
         // ============================================================================
-        function atualizarBlocosSecundarios() {
-            let placaCusto = {};
-            dadosBrutos.diesel.filter(checarData).forEach(row => {
-                const placa = getFuzzyValue(row, ['placa']) || 'N/A';
-                const setor = (getFuzzyValue(row, ['veículo', 'tipo ve', 'categoria']) || "Sem Setor").trim();
-                const valor = parsePtBrNumber(getFuzzyValue(row, ['valor total', 'total']));
-                if(!placaCusto[placa]) placaCusto[placa] = { setor: setor, valor: 0 };
-                placaCusto[placa].valor += valor;
-            });
-            const arrayPlacas = Object.keys(placaCusto).map(placa => ({ placa, ...placaCusto[placa] })).sort((a,b) => b.valor - a.valor);
-            document.getElementById('tabela-veiculos').innerHTML = arrayPlacas.slice(0, 5).map(item => `<tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 font-semibold text-slate-700">${item.placa}</td><td class="px-4 py-3 text-slate-500">${item.setor}</td><td class="px-4 py-3 font-bold text-red-500">${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</td></tr>`).join('');
+        window.atualizarBlocoFrota = function() {
+            const getUnicos = (arr, keys) => [...new Set(arr.map(r => getFuzzyValue(r, keys)).filter(v => v && String(v).trim() !== ''))].sort();
             
-            let análisesLab = [];
-            dadosBrutos.lab.filter(checarData).forEach(row => {
-                análisesLab.push({ forn: getFuzzyValue(row, ['fornecedor']) || 'N/A', umi: getFuzzyValue(row, ['umidade']) || '0', imp: getFuzzyValue(row, ['impureza']) || '0' });
-            });
-            document.getElementById('tabela-lab').innerHTML = análisesLab.slice(0, 15).map(item => `<tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 font-semibold text-slate-700">${item.forn}</td><td class="px-4 py-3 text-slate-600">${item.umi} %</td><td class="px-4 py-3 text-slate-600">${item.imp} %</td></tr>`).join('');
+            const preencherSeVazio = (id, valores, placeholder) => {
+                const sel = document.getElementById(id);
+                const atual = sel.value;
+                sel.innerHTML = `<option value="">${placeholder}</option>` + valores.map(v => `<option value="${v}">${v}</option>`).join('');
+                if(valores.includes(atual)) sel.value = atual;
+                return sel.value;
+            };
+
+            const ordenarDesc = (obj) => Object.entries(obj).map(([k,v]) => ({k, v})).sort((a,b) => b.v - a.v);
+
+            const desenharGraficoFrota = (idContainer, idScroll, idCanvas, dadosOrdenados, orientacao, cor) => {
+                const container = document.getElementById(idContainer);
+                const scroll = document.getElementById(idScroll);
+                
+                if (orientacao === 'horizontal') {
+                    container.style.height = Math.max(350, dadosOrdenados.length * 35) + 'px';
+                    scroll.style.maxHeight = '500px'; 
+                } else {
+                    container.style.height = '350px';
+                    scroll.style.maxHeight = 'none';
+                }
+                
+                const ctx = document.getElementById(idCanvas).getContext('2d');
+                let chart = Chart.getChart(idCanvas); if(chart) chart.destroy();
+                
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: dadosOrdenados.map(d => d.k),
+                        datasets: [{ data: dadosOrdenados.map(d => d.v), backgroundColor: cor, borderRadius: 4 }]
+                    },
+                    options: {
+                        indexAxis: orientacao === 'horizontal' ? 'y' : 'x', 
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                display: !isMobile(), 
+                                color: '#475569', 
+                                anchor: 'end', align: orientacao === 'horizontal' ? 'end' : 'top',
+                                formatter: v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v)
+                            }
+                        },
+                        layout: { padding: { right: (orientacao === 'horizontal' && !isMobile()) ? 90 : 10, top: (orientacao !== 'horizontal' && !isMobile()) ? 30 : 10 } }
+                    }
+                });
+            };
+
+            if (dadosBrutos.lancamento && dadosBrutos.lancamento.length > 0) {
+                let dadosLanc = dadosBrutos.lancamento.filter(checarData);
+                let fCatLanc = preencherSeVazio('sel-frota-cat', getUnicos(dadosLanc, ['categoria']), 'Todas Categorias');
+                let fServLanc = preencherSeVazio('sel-frota-serv', getUnicos(dadosLanc, ['serviço', 'servico']), 'Todos Serviços');
+
+                if (fCatLanc === '' && fServLanc === '') {
+                    let custoPorCat = {};
+                    dadosLanc.forEach(r => {
+                        let c = (getFuzzyValue(r, ['categoria']) || 'Outros').trim();
+                        custoPorCat[c] = (custoPorCat[c] || 0) + parsePtBrNumber(getFuzzyValue(r, ['valor']));
+                    });
+                    desenharGraficoFrota('container-frota-lanc', 'scroll-frota-lanc', 'chartFrotaLanc', ordenarDesc(custoPorCat), 'vertical', '#0ea5e9');
+                } else {
+                    let filtradoLanc = dadosLanc.filter(r => {
+                        let c = (getFuzzyValue(r, ['categoria']) || '').trim();
+                        let s = (getFuzzyValue(r, ['serviço', 'servico']) || '').trim();
+                        if(fCatLanc && c !== fCatLanc) return false;
+                        if(fServLanc && s !== fServLanc) return false;
+                        return true;
+                    });
+                    let custoPlaca = {};
+                    filtradoLanc.forEach(r => {
+                        let p = (getFuzzyValue(r, ['placa']) || 'N/A').trim();
+                        custoPlaca[p] = (custoPlaca[p] || 0) + parsePtBrNumber(getFuzzyValue(r, ['valor']));
+                    });
+                    desenharGraficoFrota('container-frota-lanc', 'scroll-frota-lanc', 'chartFrotaLanc', ordenarDesc(custoPlaca), 'horizontal', '#6366f1');
+                }
+            }
+
+            if (dadosBrutos.troca_oleo && dadosBrutos.troca_oleo.length > 0) {
+                let dadosOleo = dadosBrutos.troca_oleo.filter(checarData);
+                let fCatOleo = preencherSeVazio('sel-oleo-cat', getUnicos(dadosOleo, ['categoria']), 'Todas Categorias');
+                let fTipoOleo = preencherSeVazio('sel-oleo-tipo', getUnicos(dadosOleo, ['manuten']), 'Todos Tipos Manutenção');
+
+                if (fCatOleo === '' && fTipoOleo === '') {
+                    let custoPorCat = {};
+                    dadosOleo.forEach(r => {
+                        let c = (getFuzzyValue(r, ['categoria']) || 'Outros').trim();
+                        custoPorCat[c] = (custoPorCat[c] || 0) + parsePtBrNumber(getFuzzyValue(r, ['total']));
+                    });
+                    desenharGraficoFrota('container-frota-oleo', 'scroll-frota-oleo', 'chartFrotaOleo', ordenarDesc(custoPorCat), 'vertical', '#f59e0b');
+                } else {
+                    let filtradoOleo = dadosOleo.filter(r => {
+                        let c = (getFuzzyValue(r, ['categoria']) || '').trim();
+                        let t = (getFuzzyValue(r, ['manuten']) || '').trim();
+                        if(fCatOleo && c !== fCatOleo) return false;
+                        if(fTipoOleo && t !== fTipoOleo) return false;
+                        return true;
+                    });
+                    let custoPlaca = {};
+                    filtradoOleo.forEach(r => {
+                        let p = (getFuzzyValue(r, ['placa']) || 'N/A').trim();
+                        custoPlaca[p] = (custoPlaca[p] || 0) + parsePtBrNumber(getFuzzyValue(r, ['total']));
+                    });
+                    desenharGraficoFrota('container-frota-oleo', 'scroll-frota-oleo', 'chartFrotaOleo', ordenarDesc(custoPlaca), 'horizontal', '#d97706');
+                }
+            }
+
+            if (dadosBrutos.diesel && dadosBrutos.diesel.length > 0) {
+                let dadosDiesel = dadosBrutos.diesel.filter(checarData);
+                let fCatDiesel = preencherSeVazio('sel-diesel-cat', getUnicos(dadosDiesel, ['veículo', 'tipo ve', 'categoria']), 'Todos Veículos');
+                let fTipoDiesel = preencherSeVazio('sel-diesel-tipo', getUnicos(dadosDiesel, ['tipo', 'combust']), 'Todos Combustíveis');
+
+                if (fCatDiesel === '' && fTipoDiesel === '') {
+                    let custoPorCat = {};
+                    dadosDiesel.forEach(r => {
+                        let c = (getFuzzyValue(r, ['veículo', 'tipo ve', 'categoria']) || 'Outros').trim();
+                        custoPorCat[c] = (custoPorCat[c] || 0) + parsePtBrNumber(getFuzzyValue(r, ['valor total', 'total', 'valor']));
+                    });
+                    desenharGraficoFrota('container-frota-diesel', 'scroll-frota-diesel', 'chartFrotaDiesel', ordenarDesc(custoPorCat), 'vertical', '#10b981');
+                } else {
+                    let filtradoDiesel = dadosDiesel.filter(r => {
+                        let c = (getFuzzyValue(r, ['veículo', 'tipo ve', 'categoria']) || '').trim();
+                        let t = (getFuzzyValue(r, ['tipo', 'combust']) || '').trim();
+                        if(fCatDiesel && c !== fCatDiesel) return false;
+                        if(fTipoDiesel && t !== fTipoDiesel) return false;
+                        return true;
+                    });
+                    let custoPlaca = {};
+                    filtradoDiesel.forEach(r => {
+                        let p = (getFuzzyValue(r, ['placa']) || 'N/A').trim();
+                        custoPlaca[p] = (custoPlaca[p] || 0) + parsePtBrNumber(getFuzzyValue(r, ['valor total', 'total', 'valor']));
+                    });
+                    desenharGraficoFrota('container-frota-diesel', 'scroll-frota-diesel', 'chartFrotaDiesel', ordenarDesc(custoPlaca), 'horizontal', '#059669');
+                }
+            }
         }
 
+        // ============================================================================
+        // BLOCO 4: LABORATÓRIO (GRANULOMETRIA & MILHO)
+        // ============================================================================
+        window.atualizarBlocoLab = function() {
+            // --- 1. GRANULOMETRIA ---
+            const mpSelecionada = document.getElementById('sel-lab-mp').value.toUpperCase();
+            let granuloMeses = {};
+            
+            if (dadosBrutos.granulometria && dadosBrutos.granulometria.length > 0) {
+                dadosBrutos.granulometria.filter(checarData).sort((a,b) => {
+                    const d1 = extrairAnoMes(getDataValue(a)), d2 = extrairAnoMes(getDataValue(b));
+                    return (d1.ano + String(d1.mesNum).padStart(2,'0')).localeCompare(d2.ano + String(d2.mesNum).padStart(2,'0'));
+                }).forEach(row => {
+                    const dt = extrairAnoMes(getDataValue(row));
+                    if(dt.mes && dt.ano) {
+                        const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                        if(!granuloMeses[mLabel]) granuloMeses[mLabel] = { dgm: [], dpg: [] };
+                        
+                        const keys = Object.keys(row);
+                        let dgmKey = keys.find(k => k.toUpperCase().includes(mpSelecionada) && k.toUpperCase().includes('DGM'));
+                        let dpgKey = keys.find(k => k.toUpperCase().includes(mpSelecionada) && k.toUpperCase().includes('DPG'));
+                        
+                        if(dgmKey) {
+                            let v = parsePtBrNumber(row[dgmKey]);
+                            if(v > 0) granuloMeses[mLabel].dgm.push(v);
+                        }
+                        if(dpgKey) {
+                            let v = parsePtBrNumber(row[dpgKey]);
+                            if(v > 0) granuloMeses[mLabel].dpg.push(v);
+                        }
+                    }
+                });
+            }
+            
+            const labelsGranulo = Object.keys(granuloMeses);
+            const dataDGM = labelsGranulo.map(m => calcMedia(granuloMeses[m].dgm));
+            const dataDPG = labelsGranulo.map(m => calcMedia(granuloMeses[m].dpg));
+            
+            const ctxGranulo = document.getElementById('chartLabGranulo').getContext('2d');
+            let cGranulo = Chart.getChart('chartLabGranulo'); if(cGranulo) cGranulo.destroy();
+            new Chart(ctxGranulo, {
+                type: 'line',
+                data: {
+                    labels: labelsGranulo,
+                    datasets: [
+                        { label: 'DGM (Mícron)', data: dataDGM, borderColor: '#0ea5e9', tension: 0.4, borderWidth: 3, yAxisID: 'y' },
+                        { label: 'DPG', data: dataDPG, borderColor: '#f59e0b', tension: 0.4, borderWidth: 3, yAxisID: 'y1' }
+                    ]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { datalabels: { display: false }, legend: { position: 'top' } },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'DGM'}, grid: { color: '#f1f5f9' } },
+                        y1: { type: 'linear', display: true, position: 'right', grid: {drawOnChartArea: false}, title: {display: true, text: 'DPG'} }
+                    }
+                }
+            });
+
+            // --- 2. QUALIDADE DO MILHO & DENSIDADE ---
+            let dadosMilho = [];
+            if (dadosBrutos.lab && dadosBrutos.lab.length > 0) {
+                dadosMilho = dadosBrutos.lab.filter(checarData);
+            }
+
+            const getUnicos = (arr, keys) => [...new Set(arr.map(r => getFuzzyValue(r, keys)).filter(v => v && String(v).trim() !== ''))].sort();
+            
+            const selForn = document.getElementById('sel-lab-forn');
+            const atualForn = selForn.value;
+            const forns = getUnicos(dadosMilho, ['fornecedor', 'forn']);
+            selForn.innerHTML = '<option value="">Todos Fornecedores</option>' + forns.map(v => `<option value="${v}">${v}</option>`).join('');
+            if(forns.includes(atualForn)) selForn.value = atualForn;
+            
+            const fSelecionado = selForn.value;
+            let filtradoMilho = dadosMilho;
+            if(fSelecionado) {
+                filtradoMilho = dadosMilho.filter(r => {
+                    let f = (getFuzzyValue(r, ['fornecedor', 'forn']) || '').trim();
+                    return f === fSelecionado;
+                });
+            }
+
+            // Gráfico de Qualidade do Milho (Umidade, Impureza, Avariados, Densidade)
+            let milhoMeses = {};
+            filtradoMilho.sort((a,b) => {
+                const d1 = extrairAnoMes(getDataValue(a)), d2 = extrairAnoMes(getDataValue(b));
+                return (d1.ano + String(d1.mesNum).padStart(2,'0')).localeCompare(d2.ano + String(d2.mesNum).padStart(2,'0'));
+            }).forEach(r => {
+                const dt = extrairAnoMes(getDataValue(r));
+                if(dt.mes && dt.ano) {
+                    const mLabel = `${dt.mes}/${dt.ano.substring(2,4)}`;
+                    if(!milhoMeses[mLabel]) milhoMeses[mLabel] = { umi: [], imp: [], ava: [], den: [] };
+                    
+                    let u = parsePtBrNumber(getFuzzyValue(r, ['umidade', 'umid']));
+                    let i = parsePtBrNumber(getFuzzyValue(r, ['impureza', 'impur']));
+                    let a = parsePtBrNumber(getFuzzyValue(r, ['avariados', 'avariado']));
+                    let d = parsePtBrNumber(getFuzzyValue(r, ['densidade', 'dens']));
+                    
+                    if(u > 0) milhoMeses[mLabel].umi.push(u);
+                    if(i > 0) milhoMeses[mLabel].imp.push(i);
+                    if(a > 0) milhoMeses[mLabel].ava.push(a);
+                    if(d > 0) milhoMeses[mLabel].den.push(d);
+                }
+            });
+
+            const labelsMilho = Object.keys(milhoMeses);
+            const dataUmi = labelsMilho.map(m => calcMedia(milhoMeses[m].umi));
+            const dataImp = labelsMilho.map(m => calcMedia(milhoMeses[m].imp));
+            const dataAva = labelsMilho.map(m => calcMedia(milhoMeses[m].ava));
+            const dataDen = labelsMilho.map(m => calcMedia(milhoMeses[m].den));
+
+            const ctxQualidade = document.getElementById('chartLabQualidade').getContext('2d');
+            let chartQualidade = Chart.getChart('chartLabQualidade'); if(chartQualidade) chartQualidade.destroy();
+            new Chart(ctxQualidade, {
+                type: 'line',
+                data: {
+                    labels: labelsMilho,
+                    datasets: [
+                        { label: 'Umidade (%)', data: dataUmi, borderColor: '#3b82f6', backgroundColor: 'transparent', tension: 0.4, borderWidth: 2, yAxisID: 'y' },
+                        { label: 'Avariados (%)', data: dataAva, borderColor: '#f59e0b', backgroundColor: 'transparent', tension: 0.4, borderWidth: 2, yAxisID: 'y' },
+                        { label: 'Impureza (%)', data: dataImp, borderColor: '#ef4444', backgroundColor: 'transparent', tension: 0.4, borderWidth: 2, yAxisID: 'y' },
+                        { label: 'Densidade (g/l)', data: dataDen, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', type: 'bar', borderRadius: 4, yAxisID: 'y1' }
+                    ]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { datalabels: { display: false }, legend: { position: 'top', labels: {boxWidth: 12, font: {size: 10}} } },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left', title: {display: true, text: '%'}, suggestedMin: 0, suggestedMax: 15 },
+                        y1: { type: 'linear', display: true, position: 'right', grid: {drawOnChartArea: false}, title: {display: true, text: 'g/l'}, suggestedMin: 700 }
+                    }
+                }
+            });
+
+            // Gráfico Ranking Densidade
+            let densidadeForn = {};
+            filtradoMilho.forEach(r => {
+                let f = (getFuzzyValue(r, ['fornecedor', 'forn']) || 'N/A').trim();
+                let d = parsePtBrNumber(getFuzzyValue(r, ['densidade', 'dens']));
+                if(d > 0) {
+                    if(!densidadeForn[f]) densidadeForn[f] = [];
+                    densidadeForn[f].push(d);
+                }
+            });
+
+            let mediaDensidade = Object.keys(densidadeForn).map(k => ({ k: k, v: calcMedia(densidadeForn[k]) })).sort((a,b) => b.v - a.v);
+
+            const ctxDens = document.getElementById('chartLabDensidade').getContext('2d');
+            let chartDens = Chart.getChart('chartLabDensidade'); if(chartDens) chartDens.destroy();
+            new Chart(ctxDens, {
+                type: 'bar',
+                data: {
+                    labels: mediaDensidade.slice(0, 10).map(d => d.k),
+                    datasets: [{ label: 'Densidade Média (g/l)', data: mediaDensidade.slice(0, 10).map(d => d.v), backgroundColor: '#8b5cf6', borderRadius: 4 }]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: {display: false}, datalabels: { display: !isMobile(), color: '#fff', font: {weight: 'bold', size: 9}, formatter: v => v.toFixed(1) } },
+                    scales: {
+                        y: { min: Math.max(0, (mediaDensidade[0]?.v || 800) - 100) } // Inicia o eixo Y próximo do menor valor para ressaltar a diferença
+                    }
+                }
+            });
+        }
+
+        // ============================================================================
+        // MOTOR DE SIMULADOR (RAÇÃO)
+        // ============================================================================
         window.getPriceForIngredient = function(ingName) {
             let n = String(ingName).toUpperCase().trim();
             if(!n) return 0;
@@ -936,7 +1446,7 @@
                 },
                 options: { 
                     indexAxis: 'y', responsive: true, maintainAspectRatio: false, 
-                    plugins: { legend: {display: false}, datalabels: { display: isMobile(), color: '#fff', font: {weight: 'bold', size: 9}, formatter: v => v.toFixed(0) } } 
+                    plugins: { legend: {display: false}, datalabels: { display: false } } 
                 }
             });
         }
@@ -955,7 +1465,7 @@
                 type: 'bar', data: { labels: labels, datasets: [{ data: data, backgroundColor: cor, borderRadius: 4 }] },
                 options: { 
                     responsive: true, maintainAspectRatio: false, 
-                    plugins: { legend: {display: false}, datalabels: { display: isMobile(), color: '#fff', font: {weight: 'bold', size: 9} } } 
+                    plugins: { legend: {display: false}, datalabels: { display: false } } 
                 }
             });
         }
